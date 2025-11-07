@@ -1,12 +1,12 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import { createContext, useContext, useState, ReactNode, useEffect, Dispatch, SetStateAction } from "react";
 
 type Ctx = {
   isOpen: boolean;
-  setOpen: (v: boolean) => void;
+  setOpen: Dispatch<SetStateAction<boolean>>;
   unread: number;
-  setUnread: (n: number) => void;
+  setUnread: Dispatch<SetStateAction<number>>;
 };
 const MessageCenterCtx = createContext<Ctx | null>(null);
 export function MessageCenterProvider({ children }: { children: ReactNode }) {

@@ -33,7 +33,7 @@ export default function GradeSubmission({ params }: { params: { id: string } }) 
   return (
     <div className="mx-auto max-w-3xl p-6">
       <Link href="/teacher/grading" className="text-sm text-primary hover:underline">← Back to queue</Link>
-      <h1 className="mt-2 text-2xl font-semibold text-primary">Grade: {sub.student} — {sub.assignment}</h1>
+      <h1 className="mt-2 text-2xl font-semibold text-primary">Grade: {sub.student} - {sub.assignment}</h1>
 
       <Card className="mt-4">
         <CardTitle>Rubric</CardTitle>
@@ -64,7 +64,7 @@ export default function GradeSubmission({ params }: { params: { id: string } }) 
           rows={4}
         />
         <div className="mt-3 flex gap-2">
-          <Button onClick={() => show({ title: "Grade published", message: `${sub.student} — ${sub.assignment}`, variant: "success" })}>Publish Grade</Button>
+          <Button onClick={() => show({ title: "Grade published", message: `${sub.student} - ${sub.assignment}`, variant: "success" })}>Publish Grade</Button>
           <Button variant="ghost">Save Draft</Button>
         </div>
       </Card>

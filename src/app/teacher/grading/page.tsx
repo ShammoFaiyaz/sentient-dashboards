@@ -21,7 +21,7 @@ export default function TeacherGrading() {
 
   function approve(item: any, score: number, feedback: string) {
     setOpen(false);
-    show({ title: "Grade drafted", message: `${item.student} — ${item.assignment} (${score}/10)`, variant: "success" });
+    show({ title: "Grade drafted", message: `${item.student} - ${item.assignment} (${score}/10)`, variant: "success" });
   }
 
   function autoDraftAll() {

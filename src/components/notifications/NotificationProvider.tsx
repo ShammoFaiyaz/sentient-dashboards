@@ -22,7 +22,7 @@ const NotificationContext = React.createContext<Ctx | null>(null);
 export function NotificationProvider({ children }: { children: React.ReactNode }) {
   const [notifications, setNotifications] = React.useState<NotificationItem[]>([
     { id: "n1", title: "Quiz today 3:00 PM", time: "2m ago", unread: true },
-    { id: "n2", title: "Docs missing — Admissions", time: "1h ago", unread: true },
+    { id: "n2", title: "Docs missing - Admissions", time: "1h ago", unread: true },
     { id: "n3", title: "New grading submissions", time: "3h ago", unread: false },
   ]);
 

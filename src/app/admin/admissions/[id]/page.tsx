@@ -8,7 +8,7 @@ export default function AdminAdmissionDetail({ params }: { params: { id: string 
 
   return (
     <div className="mx-auto max-w-4xl p-6">
-      <h1 className="text-2xl font-semibold text-primary">Application — {cand.name}</h1>
+      <h1 className="text-2xl font-semibold text-primary">Application - {cand.name}</h1>
       <Card className="mt-6">
         <CardTitle>Details</CardTitle>
         <div className="mt-3 grid gap-3 text-sm md:grid-cols-2">

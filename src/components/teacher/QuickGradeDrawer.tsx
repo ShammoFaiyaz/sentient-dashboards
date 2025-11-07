@@ -35,7 +35,7 @@ export function QuickGradeDrawer({
     if (!item) return;
     const score = checks.reduce((acc, on, i) => acc + (on ? defaultRubric[i].points : 0), 0);
     const lines = [
-      `Feedback for ${item.student} — ${item.assignment}:`,
+      `Feedback for ${item.student} - ${item.assignment}:`,
       checks[0] ? "• Correctness: Meets expected output on main cases." : "• Correctness: Some failing cases detected.",
       checks[1] ? "• Efficiency: Reasonable time/space usage." : "• Efficiency: Consider optimizing loops/data structures.",
       checks[2] ? "• Style: Clear naming and comments." : "• Style: Improve variable naming and add comments.",
@@ -68,7 +68,7 @@ export function QuickGradeDrawer({
           </div>
         </div>
 
-        <div className="text-sm text-muted">{item.course} — {item.assignment} • {item.student} • submitted {item.submittedAt}</div>
+        <div className="text-sm text-muted">{item.course} - {item.assignment} • {item.student} • submitted {item.submittedAt}</div>
 
         <div className="mt-4 grid gap-4 md:grid-cols-2">
           <section className="rounded-md border border-line/60 p-3">

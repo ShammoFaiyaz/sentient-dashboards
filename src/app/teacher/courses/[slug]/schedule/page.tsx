@@ -17,7 +17,7 @@ export default function CourseSchedule({ params }: { params: { slug: string } })
 
   return (
     <div className="mx-auto max-w-6xl p-6">
-      <h1 className="text-2xl font-semibold text-primary">Schedule — {course.title}</h1>
+      <h1 className="text-2xl font-semibold text-primary">Schedule - {course.title}</h1>
       <RelevantAgentsStrip
         agents={[
           { icon: <Sparkles className="h-4 w-4" />, name: "Generative Teaching Assistant", href: agents.find(a=>a.id==="genai-assistant")?.url },

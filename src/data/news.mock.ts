@@ -21,7 +21,7 @@ export const NEWS_ITEMS: NewsItem[] = [
 	},
 	{
 		id: "n3",
-		title: "Campus AI Fair — Meet the Agents",
+		title: "Campus AI Fair - Meet the Agents",
 		description: "Hands-on demos and talks from faculty and students.",
 		tag: "Event",
 		imageSrc: "/news/event.jpg",
@@ -75,7 +75,7 @@ export const NEWS_ITEMS: NewsItem[] = [
 	},
 	{
 		id: "n9",
-		title: "Advising Week — Book Your 1:1",
+		title: "Advising Week - Book Your 1:1",
 		description: "Teachers and advisors open extra office hours for planning.",
 		tag: "Announcement",
 		imageSrc: "/news/advising.jpg",

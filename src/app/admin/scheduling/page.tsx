@@ -18,8 +18,8 @@ export default function AdminScheduling() {
         <Card>
           <CardTitle>Upcoming windows</CardTitle>
           <ul className="list-inside list-disc text-sm text-neutral-dark/80">
-            <li>Registration opens — Dec 1</li>
-            <li>Add/Drop — Jan 10–20</li>
+            <li>Registration opens - Dec 1</li>
+            <li>Add/Drop - Jan 10–20</li>
           </ul>
         </Card>
       </div>

@@ -33,8 +33,8 @@ export default function StudentDashboard() {
         <Card role="button" tabIndex={0} onClick={() => router.push("/student/assessments")} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); router.push("/student/assessments"); } }} className="cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">
           <CardTitle className="text-[18px]">Upcoming Deadlines</CardTitle>
           <ul className="list-inside list-disc text-sm text-neutral-dark/80">
-            <li>Ethics essay draft — Nov 12</li>
-            <li>Data structures lab — Nov 14</li>
+            <li>Ethics essay draft - Nov 12</li>
+            <li>Data structures lab - Nov 14</li>
           </ul>
         </Card>
       </div>

@@ -28,7 +28,7 @@ export default function TeacherDashboard() {
         </Card>
         <Card role="button" tabIndex={0} onClick={() => router.push("/teacher/courses")} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); router.push("/teacher/courses"); } }} className="cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">
           <CardTitle>Drafts</CardTitle>
-          <p className="text-sm text-neutral-dark/80">Lecture 7 slides — needs examples.</p>
+          <p className="text-sm text-neutral-dark/80">Lecture 7 slides - needs examples.</p>
         </Card>
       </div>
       <section className="mt-8">

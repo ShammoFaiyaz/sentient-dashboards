@@ -93,7 +93,7 @@ export default function AdminEnrollment() {
               <ul className="space-y-2">
                 {conflicts.map((c) => (
                   <li key={c.id} className="rounded-md border border-line/60 p-3">
-                    <div className="font-medium text-ink">{c.course} — Section {c.section}</div>
+                    <div className="font-medium text-ink">{c.course} - Section {c.section}</div>
                     <div className="text-muted">Issue: {c.issue}</div>
                     <div className="text-ink/90">Suggestion: {c.suggestion}</div>
                   </li>

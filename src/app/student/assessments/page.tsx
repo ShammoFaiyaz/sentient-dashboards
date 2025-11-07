@@ -35,7 +35,7 @@ export default function StudentAssessments() {
         <div className="mt-6">
           <EmptyState
             title="Nothing due"
-            body="Stay sharp — schedule a quick practice session with your Mentor."
+            body="Stay sharp - schedule a quick practice session with your Mentor."
             ctaLabel="Ask Mentor to schedule practice"
             onCtaClick={openMentorIntent}
             variant="accent"

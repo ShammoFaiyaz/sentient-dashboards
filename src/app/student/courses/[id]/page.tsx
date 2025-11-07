@@ -14,11 +14,11 @@ import { useToast } from "@/components/ui/Toast";
 type Tab = "Syllabus" | "Completion" | "Assessments" | "Q&A" | "Agents";
 
 export default function CourseDetail({ params }: { params: { id: string } }) {
-  const course = getCourseById(params.id);
-  if (!course) return notFound();
-
+  // Hooks must be called unconditionally at the top of the component
   const [tab, setTab] = useState<Tab>("Syllabus");
   const { show } = useToast();
+  const course = getCourseById(params.id);
+  if (!course) return notFound();
 
   const meta: Record<string, { instructor: string; period: string }> = {
     "algorithms": { instructor: "Prof. Rivera", period: "Oct–Dec, 10 weeks" },

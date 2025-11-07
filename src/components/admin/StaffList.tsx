@@ -35,7 +35,7 @@ export function StaffList() {
   function onAction(action: "view" | "edit" | "deactivate", member: StaffMember) {
     const title = action === "view" ? "View profile" : action === "edit" ? "Edit staff" : "Deactivated";
     const variant = action === "deactivate" ? "warning" : "primary";
-    show({ title, message: `${member.name} — ${member.role}`, variant });
+    show({ title, message: `${member.name} - ${member.role}`, variant });
   }
 
   return (

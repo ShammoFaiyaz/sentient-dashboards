@@ -28,13 +28,12 @@
    }
   return (
     <div className="mx-auto max-w-7xl px-1.5 py-4">
-       <div className="flex items-center justify-between">
+      {/* <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold text-primary">Agent Management</h1>
-           <p className="mt-1 text-xs text-muted">Create agents and toggle availability across the app.</p>
-         </div>
-         <Button onClick={() => setOpenForm((s) => !s)}>{openForm ? "Close" : "New agent"}</Button>
-       </div>
+          <p className="mt-1 text-xs text-muted">Create agents and toggle availability across the app.</p>
+        </div>
+      </div> */}
  
        {openForm && (
          <div className="mt-4 rounded-lg border border-line/60 bg-white p-4 shadow-elevation-sm">
@@ -82,23 +81,35 @@
          </div>
        )}
  
-      <Section title="Student Agents">
+      <Section
+        title="Student Agents"
+        action={<Button onClick={() => setOpenForm((s) => !s)}>{openForm ? "Close" : "Add agent"}</Button>}
+      >
         <AgentsGrid items={students} onToggle={toggleOnline} onRemove={removeAgent} />
        </Section>
-       <Section title="Teacher Agents">
+      <Section
+        title="Teacher Agents"
+        action={<Button onClick={() => setOpenForm((s) => !s)}>{openForm ? "Close" : "Add agent"}</Button>}
+      >
         <AgentsGrid items={teachers} onToggle={toggleOnline} onRemove={removeAgent} />
-       </Section>
-       <Section title="Admin Agents">
+      </Section>
+      <Section
+        title="Admin Agents"
+        action={<Button onClick={() => setOpenForm((s) => !s)}>{openForm ? "Close" : "Add agent"}</Button>}
+      >
         <AgentsGrid items={admins} onToggle={toggleOnline} onRemove={removeAgent} />
-       </Section>
+      </Section>
      </div>
    );
  }
  
- function Section({ title, children }: { title: string; children: React.ReactNode }) {
+function Section({ title, children, action }: { title: string; children: React.ReactNode; action?: React.ReactNode }) {
    return (
      <section className="mt-8">
-       <h2 className="text-lg font-semibold text-primary">{title}</h2>
+      <div className="mb-2 flex items-center justify-between">
+        <h2 className="text-lg font-semibold text-primary">{title}</h2>
+        {action && <div className="shrink-0">{action}</div>}
+      </div>
        <div className="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-3">{children}</div>
      </section>
    );

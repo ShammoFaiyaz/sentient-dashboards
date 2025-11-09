@@ -52,9 +52,9 @@ export default function RootLayout({
           <a href="#main" className="sr-only focus:not-sr-only fixed left-2 top-2 z-50 rounded-control bg-surface px-3 py-2 text-sm text-ink shadow-elevation-sm outline outline-2 outline-primary outline-offset-2">Skip to content</a>
           <div className="flex-1 lg:flex">
             <Sidebar />
-            <main id="main" className="relative flex-1 pt-16">
+            <main id="main" className="relative flex-1 pt-16 pb-16">
               <div className="fixed right-4 top-5 z-40">
-                <div className="flex items-center gap-2 rounded-full border border-line/60 bg-white px-2 py-1 shadow-[0_12px_28px_rgba(0,0,0,0.18)]">
+                <div className="flex items-center gap-2 rounded-full border border-line/60 bg-white px-2 py-1 shadow-[0_10px_22px_rgba(0,0,0,0.18)]">
                   <SearchBar />
                   <BackgroundToggle />
                   <TopbarActions />

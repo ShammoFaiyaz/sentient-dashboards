@@ -35,9 +35,9 @@ export function AssistantDrawer() {
       <button
         aria-label="Open Assistant"
         onClick={() => setOpen(true)}
-        className="fixed bottom-4 right-4 z-40 inline-flex h-12 w-12 items-center justify-center rounded-full border border-line/60 bg-white text-ink shadow-[0_10px_24px_rgba(0,0,0,0.16)] hover:bg-primary/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
+        className="fixed bottom-4 right-4 z-40 inline-flex h-12 w-12 items-center justify-center rounded-full border border-line/60 bg-accentStrong text-white shadow-[0_10px_24px_rgba(0,0,0,0.16)] hover:bg-accentStrong/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
       >
-        <Bot className="h-6 w-6" />
+        <Bot className="h-6 w-6 text-white" />
       </button>
 
       <AnimatePresence>

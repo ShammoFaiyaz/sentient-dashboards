@@ -30,7 +30,7 @@ function roleCta(agent: Agent): { label: string; variant: "primary" | "accent" }
   return { label: agent.id === "virtual-admissions" ? "Open admissions bot" : "Build journey", variant: "primary" };
 }
 
-export function AgentTile({ agent, poweredByBLDR }: { agent: Agent; poweredByBLDR?: boolean }) {
+export function AgentTile({ agent, poweredByBLDR, status }: { agent: Agent; poweredByBLDR?: boolean; status?: "online" | "offline" }) {
   const Icon = getIcon(agent.icon);
   const grad = medallionGradient(agent.color);
   const { label, variant } = roleCta(agent);
@@ -40,6 +40,13 @@ export function AgentTile({ agent, poweredByBLDR }: { agent: Agent; poweredByBLD
       {poweredByBLDR && (
         <div className="absolute right-3 top-3 rounded-full bg-primary/5 px-2 py-0.5 text-[10px] text-primary">
           Powered by BLDR
+        </div>
+      )}
+
+      {status && (
+        <div className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full border border-line/60 bg-white px-2 py-0.5 text-[11px] shadow-elevation-sm">
+          <span className={cn("h-2 w-2 rounded-full", status === "online" ? "bg-emerald-500" : "bg-neutral-400")} />
+          <span className="text-xs text-ink/80 capitalize">{status}</span>
         </div>
       )}
 

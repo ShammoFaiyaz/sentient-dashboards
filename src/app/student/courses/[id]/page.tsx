@@ -34,7 +34,7 @@ export default function CourseDetail({ params }: { params: { id: string } }) {
   const completedCount = Math.round((course.progressPercent / 100) * course.lessons.length);
 
   return (
-    <div className="mx-auto max-w-6xl p-6">
+    <div className="mx-auto max-w-7xl px-2 py-6">
       {/* Hero */}
       <div className="flex items-start justify-between gap-4">
         <div>

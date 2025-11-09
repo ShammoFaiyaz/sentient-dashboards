@@ -8,7 +8,8 @@ import { ExplainDrawer } from "@/components/admin/ExplainDrawer";
 import { ExplainBadge } from "@/components/ExplainBadge";
 import { FilterGroup } from "@/components/ui/FilterGroup";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { agentsForRole } from "@/mock/agents";
+import { useAgents } from "@/context/AgentsProvider";
+import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { useToast } from "@/components/ui/Toast";
 import { AgentTile } from "@/components/AgentTile";
@@ -72,15 +73,27 @@ function AdminAdmissions() {
     )
   , [program, minScore, docs, visa, fee, q]);
 
+  const { agentsByRole } = useAgents();
+  const featured = agentsByRole("admin", { onlyOnline: true }).slice(0, 4);
   return (
-    <div className="mx-auto max-w-6xl p-6">
-      <h1 className="text-2xl font-semibold text-primary">Admissions</h1>
+    <div className="mx-auto max-w-7xl px-2 py-6">
+      {/* <h1 className="text-2xl font-semibold text-primary">Admissions</h1> */}
       <section className="mt-4">
-        <h2 className="mb-1 font-medium">Featured Agents</h2>
-        <p className="mb-2 text-xs text-muted">Transparent • Cites sources • Human override</p>
-        <div className="grid gap-4 md:grid-cols-3">
-          {agentsForRole("admin").slice(0,3).map((a) => (
-            <AgentTile key={a.id} agent={a} />
+        <div className="mb-2 flex items-center justify-between">
+          <div>
+            <h2 className="font-medium">Featured Agents</h2>
+            <p className="text-xs text-muted">Transparent • Cites sources • Human override</p>
+          </div>
+          <Link
+            href="/admin/agents"
+            className="rounded-md px-2 py-1 text-sm text-primary hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
+          >
+            View all agents
+          </Link>
+        </div>
+        <div className="grid gap-4 md:grid-cols-4">
+          {featured.map((a) => (
+            <AgentTile key={a.id} agent={a} status="online" />
           ))}
         </div>
       </section>

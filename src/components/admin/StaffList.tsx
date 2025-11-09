@@ -44,25 +44,25 @@ export function StaffList() {
       <Table>
         <thead>
           <tr>
-            <Th>Avatar</Th>
-            <Th>Name</Th>
-            <Th>Role</Th>
-            <Th>Email</Th>
-            <Th>Actions</Th>
+            <Th className="w-[10%]">Avatar</Th>
+            <Th className="w-[25%]">Name</Th>
+            <Th className="w-[15%]">Role</Th>
+            <Th className="w-[30%]">Email</Th>
+            <Th className="w-[20%]">Actions</Th>
           </tr>
         </thead>
         <tbody>
           {staffMembers.map((m) => (
             <tr key={m.id} className="odd:bg-neutral-light/40">
-              <Td>
+              <Td className="w-[10%]">
                 <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
                   {getInitials(m.name)}
                 </div>
               </Td>
-              <Td className="whitespace-nowrap">{m.name}</Td>
-              <Td>{m.role}</Td>
-              <Td className="text-sm text-neutral-dark/80">{m.email}</Td>
-              <Td>
+              <Td className="w-[25%] whitespace-nowrap">{m.name}</Td>
+              <Td className="w-[15%]">{m.role}</Td>
+              <Td className="w-[30%] text-sm text-neutral-dark/80">{m.email}</Td>
+              <Td className="w-[20%]">
                 <div className="flex flex-wrap items-center gap-2">
                   <Button size="sm" variant="ghost" onClick={() => onAction("view", m)}>View</Button>
                   <Button size="sm" variant="ghost" onClick={() => onAction("edit", m)}>Edit</Button>

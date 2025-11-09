@@ -1,15 +1,18 @@
+ "use client";
+
 import { AgentTile } from "@/components/AgentTile";
-import { agentsForRole } from "@/mock/agents";
+import { useAgents } from "@/context/AgentsProvider";
 
 export default function TeacherAgents() {
-  const list = agentsForRole("teacher");
+  const { agentsByRole } = useAgents();
+  const list = agentsByRole("teacher", { onlyOnline: true });
   return (
-    <div className="mx-auto max-w-6xl p-6">
-      <h1 className="text-2xl font-semibold text-primary">Faculty Agents</h1>
-      <p className="mt-1 text-xs text-muted">Transparent • Cites sources • Human override</p>
+    <div className="mx-auto max-w-7xl px-2 py-6">
+      {/* <h1 className="text-2xl font-semibold text-primary">Faculty Agents</h1>
+      <p className="mt-1 text-xs text-muted">Transparent • Cites sources • Human override</p> */}
       <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {list.map((a) => (
-          <AgentTile key={a.id} agent={a} />
+          <AgentTile key={a.id} agent={a} status="online" />
         ))}
       </div>
     </div>

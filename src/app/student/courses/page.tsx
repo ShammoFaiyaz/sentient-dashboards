@@ -18,10 +18,21 @@ export default function StudentCourses() {
     "data-structures": { instructor: "Prof. Chen", period: "Oct–Dec, 10 weeks" },
   };
   return (
-    <div className="mx-auto max-w-6xl p-6">
-      <h1 className="text-2xl font-semibold text-primary">Courses</h1>
+    <div className="mx-auto max-w-7xl px-1.5 py-4">
+      {/* <h1 className="text-2xl font-semibold text-primary">Courses</h1> */}
       <section className="mt-3">
-        <div className="mb-2 text-xs text-muted">Course Agents</div>
+        <div className="mb-2 flex items-center justify-between">
+          <div>
+            <h2 className="font-medium">Featured Agents</h2>
+            <p className="text-xs text-muted">Transparent • Cites sources • Human override</p>
+          </div>
+          <Link
+            href="/student/agents"
+            className="rounded-md px-2 py-1 text-sm text-primary hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
+          >
+            View all agents
+          </Link>
+        </div>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {["ai-tutor-writer","digital-fluency-ethics","student-chatbot"].map(id => {
             const a = agents.find(x=>x.id===id);

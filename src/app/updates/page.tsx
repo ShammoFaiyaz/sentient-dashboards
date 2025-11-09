@@ -10,7 +10,7 @@ export default function UpdatesPage() {
     (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
   );
   return (
-    <div className="mx-auto max-w-6xl p-6">
+    <div className="mx-auto max-w-7xl px-1.5 py-4">
       <h1 className="text-2xl font-semibold text-primary">Latest News & Updates</h1>
 
       <div className="mt-6 grid gap-4 md:grid-cols-2">

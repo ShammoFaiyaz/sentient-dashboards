@@ -13,13 +13,7 @@ export function MessageCenterProvider({ children }: { children: ReactNode }) {
   const [isOpen, setOpen] = useState(false);
   const [unread, setUnread] = useState(3);
 
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key.toLowerCase() === "m") setOpen(true);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  // Keyboard shortcut disabled per request
 
   return (
     <MessageCenterCtx.Provider value={{ isOpen, setOpen, unread, setUnread }}>

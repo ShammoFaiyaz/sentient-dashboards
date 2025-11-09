@@ -18,7 +18,7 @@ export default function CourseStudents({ params }: { params: { slug: string } })
   ];
 
   return (
-    <div className="mx-auto max-w-6xl p-6">
+    <div className="mx-auto max-w-7xl px-1.5 py-4">
       <h1 className="text-2xl font-semibold text-primary">Students - {course.title}</h1>
       <RelevantAgentsStrip
         agents={[

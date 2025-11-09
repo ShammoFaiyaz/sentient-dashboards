@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Bot, Gauge, Layers3, Sparkles, Timer, Brain, BookOpen, Calendar, Shield } from "lucide-react";
+import { Bot, Gauge, Layers3, Sparkles, Timer, Brain, BookOpen, Calendar, Shield, Puzzle } from "lucide-react";
 import { useRole } from "@/components/role/RoleProvider";
 import Image from "next/image";
 import { Settings } from "lucide-react";
@@ -31,19 +31,27 @@ function getNav(role: "student" | "teacher" | "admin"): NavItem[] {
     { label: "Enrollment", icon: Layers3, href: "/admin/enrollment" },
     { label: "Scheduling", icon: Calendar, href: "/admin/schedule" },
     { label: "Compliance", icon: Shield, href: "/admin/compliance" },
-    { label: "Agents", icon: Bot, href: "/admin/agents" },
+    { label: "Agents", icon: Bot, href: "/admin/agent" },
+    { label: "Agent Management", icon: Puzzle, href: "/admin/agents" },
   ];
 }
 
-export default function Sidebar() {
+export default function Sidebar({ mobile = false }: { mobile?: boolean } = {}) {
   const pathname = usePathname();
   const { role } = useRole();
   const navItems = getNav(role);
 
   return (
-    <aside className="hidden h-screen w-[360px] shrink-0 overflow-y-auto border-r lg:flex lg:flex-col lg:sticky lg:top-0 lg:self-start shadow-[10px_0_30px_-12px_rgba(0,0,0,0.18)]" style={{ background: "var(--color-neutral-light)" }}>
+    <aside
+      className={
+        mobile
+          ? "flex h-full w-[min(92vw,360px)] shrink-0 overflow-y-auto border-r flex-col shadow-[10px_0_30px_-12px_rgba(0,0,0,0.18)] bg-white"
+          : "hidden h-screen w-[360px] shrink-0 overflow-y-auto border-r lg:flex lg:flex-col lg:sticky lg:top-0 lg:self-start shadow-[10px_0_30px_-12px_rgba(0,0,0,0.18)]"
+      }
+      style={mobile ? undefined : { background: "var(--color-neutral-light)" }}
+    >
       <div className="flex items-center justify-center px-4 py-2">
-        <Image src="/brand.gif" alt="Sentient University" width={480} height={160} className="w-[300px] h-auto" />
+        <Image src="/brand.gif" alt="Sentient University" width={480} height={160} className="w-[240px] h-auto" />
       </div>
 
       <div className="mt-0 px-6">
@@ -67,7 +75,10 @@ export default function Sidebar() {
       <nav className="mt-6 flex flex-1 flex-col gap-1 px-4">
         {navItems.map((n) => {
           const isDashboard = n.href === `/${role}`;
-          const active = isDashboard ? pathname === n.href : pathname?.startsWith(n.href);
+          // Active when exact match or when pathname starts with href followed by a slash (segment boundary)
+          const active = isDashboard
+            ? pathname === n.href
+            : pathname === n.href || pathname?.startsWith(n.href + "/");
           return (
             <Link
               key={n.label}

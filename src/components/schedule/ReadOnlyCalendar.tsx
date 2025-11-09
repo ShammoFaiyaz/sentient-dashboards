@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Calendar, CalendarDays, CalendarRange, MapPin } from "lucide-react";
+import { Calendar, CalendarDays, CalendarRange, MapPin, Plus, X } from "lucide-react";
 
 type View = "Day" | "Week" | "Month";
 
@@ -23,24 +23,115 @@ function classNames(...c: Array<string | false | null | undefined>) {
   return c.filter(Boolean).join(" ");
 }
 
-export function ReadOnlyCalendar() {
+export function ReadOnlyCalendar({ allowAdd = true, onAdd }: { allowAdd?: boolean; onAdd?: (e: EventItem) => void }) {
   const [view, setView] = React.useState<View>("Week");
+  const [events, setEvents] = React.useState<EventItem[]>(demoEvents);
+  const [showForm, setShowForm] = React.useState(false);
+  const [title, setTitle] = React.useState("");
+  const [date, setDate] = React.useState("");
+  const [start, setStart] = React.useState("");
+  const [end, setEnd] = React.useState("");
+  const [where, setWhere] = React.useState("");
 
   return (
     <div>
-      <div className="mt-2 mb-4 inline-flex rounded-md border border-line/60 bg-white p-1 text-sm shadow-elevation-sm">
-        <button onClick={() => setView("Day")} className={classNames("flex items-center gap-1 rounded-md px-3 py-1", view === "Day" ? "bg-primary/10 text-ink" : "text-muted hover:bg-primary/5")}>
-          <Calendar className="h-4 w-4" /> Day
-        </button>
-        <button onClick={() => setView("Week")} className={classNames("flex items-center gap-1 rounded-md px-3 py-1", view === "Week" ? "bg-primary/10 text-ink" : "text-muted hover:bg-primary/5")}>
-          <CalendarRange className="h-4 w-4" /> Week
-        </button>
-        <button onClick={() => setView("Month")} className={classNames("flex items-center gap-1 rounded-md px-3 py-1", view === "Month" ? "bg-primary/10 text-ink" : "text-muted hover:bg-primary/5")}>
-          <CalendarDays className="h-4 w-4" /> Month
-        </button>
+      <div className="mt-2 mb-4 flex items-center justify-between">
+        <div className="inline-flex rounded-md border border-line/60 bg-white p-1 text-sm shadow-elevation-sm">
+          <button onClick={() => setView("Day")} className={classNames("flex items-center gap-1 rounded-md px-3 py-1", view === "Day" ? "bg-primary/10 text-ink" : "text-muted hover:bg-primary/5")}>
+            <Calendar className="h-4 w-4" /> Day
+          </button>
+          <button onClick={() => setView("Week")} className={classNames("flex items-center gap-1 rounded-md px-3 py-1", view === "Week" ? "bg-primary/10 text-ink" : "text-muted hover:bg-primary/5")}>
+            <CalendarRange className="h-4 w-4" /> Week
+          </button>
+          <button onClick={() => setView("Month")} className={classNames("flex items-center gap-1 rounded-md px-3 py-1", view === "Month" ? "bg-primary/10 text-ink" : "text-muted hover:bg-primary/5")}>
+            <CalendarDays className="h-4 w-4" /> Month
+          </button>
+        </div>
+        {allowAdd && (
+          <button
+            onClick={() => setShowForm((s) => !s)}
+            className="inline-flex items-center gap-2 rounded-full border border-line/60 bg-primary text-white px-3 py-1.5 text-sm shadow-elevation-sm hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
+            aria-label={showForm ? "Close add event" : "Add event"}
+          >
+            {showForm ? <X className="h-4 w-4 text-white" /> : <Plus className="h-4 w-4 text-white" />}
+            <span>{showForm ? "Close" : "Add event"}</span>
+          </button>
+        )}
       </div>
 
-      {view === "Month" ? <MonthGrid events={demoEvents} /> : <ListView events={demoEvents} view={view} />}
+      {showForm && allowAdd && (
+        <AddEventForm
+          title={title}
+          setTitle={setTitle}
+          date={date}
+          setDate={setDate}
+          start={start}
+          setStart={setStart}
+          end={end}
+          setEnd={setEnd}
+          where={where}
+          setWhere={setWhere}
+          onSubmit={() => {
+            if (!title || !date || !start || !end) return;
+            const newEvent: EventItem = {
+              id: Math.random().toString(36).slice(2),
+              title,
+              when: `${start}—${end}`,
+              where: where || "TBD",
+              date,
+            };
+            setEvents((ev) => [newEvent, ...ev]);
+            setShowForm(false);
+            setTitle(""); setDate(""); setStart(""); setEnd(""); setWhere("");
+            onAdd?.(newEvent);
+          }}
+          onCancel={() => setShowForm(false)}
+        />
+      )}
+
+      {view === "Month" ? <MonthGrid events={events} /> : <ListView events={events} view={view} />}
+    </div>
+  );
+}
+
+function AddEventForm(props: {
+  title: string;
+  setTitle: (v: string) => void;
+  date: string;
+  setDate: (v: string) => void;
+  start: string;
+  setStart: (v: string) => void;
+  end: string;
+  setEnd: (v: string) => void;
+  where: string;
+  setWhere: (v: string) => void;
+  onSubmit: () => void;
+  onCancel: () => void;
+}) {
+  const { title, setTitle, date, setDate, start, setStart, end, setEnd, where, setWhere, onSubmit, onCancel } = props;
+  return (
+    <div className="mb-4 rounded-md border border-line/60 bg-white p-3 shadow-elevation-sm">
+      <div className="grid gap-2 sm:grid-cols-2">
+        <label className="text-sm">Title
+          <input value={title} onChange={(e) => setTitle(e.target.value)} className="mt-1 w-full rounded-md border border-line/60 p-2 text-sm" placeholder="Event title" />
+        </label>
+        <label className="text-sm">Date
+          <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="mt-1 w-full rounded-md border border-line/60 p-2 text-sm" />
+        </label>
+        <label className="text-sm">Start
+          <input type="time" value={start} onChange={(e) => setStart(e.target.value)} className="mt-1 w-full rounded-md border border-line/60 p-2 text-sm" />
+        </label>
+        <label className="text-sm">End
+          <input type="time" value={end} onChange={(e) => setEnd(e.target.value)} className="mt-1 w-full rounded-md border border-line/60 p-2 text-sm" />
+        </label>
+        <label className="text-sm sm:col-span-2">Location
+          <input value={where} onChange={(e) => setWhere(e.target.value)} className="mt-1 w-full rounded-md border border-line/60 p-2 text-sm" placeholder="Location (optional)" />
+        </label>
+      </div>
+      <div className="mt-3 flex items-center justify-end gap-2">
+        <button onClick={onCancel} className="rounded-md border border-line/60 bg-white px-3 py-1.5 text-sm hover:bg-primary/5">Cancel</button>
+        <button onClick={onSubmit} className="rounded-md bg-primary px-3 py-1.5 text-sm text-white hover:bg-primary/90">Add</button>
+      </div>
     </div>
   );
 }

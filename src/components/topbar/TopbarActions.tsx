@@ -8,15 +8,7 @@ import { NotificationBell } from "@/components/notifications/Bell";
 export default function TopbarActions() {
   const { setOpen, unread } = useMessageCenter();
 
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key.toLowerCase() === "m") {
-        setOpen(true);
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [setOpen]);
+  // Keyboard shortcut disabled per request
 
   return (
     <div className="flex items-center gap-2">
@@ -28,7 +20,7 @@ export default function TopbarActions() {
       >
         <MessageCircle className="h-5 w-5" />
         {unread > 0 && (
-          <span className="absolute -right-0.5 -top-0.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-blue-600 px-1 text-[10px] font-semibold leading-none text-white">
+          <span className="absolute -right-0.5 -top-0.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-semibold leading-none text-white">
             {unread}
           </span>
         )}

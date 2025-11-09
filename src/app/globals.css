@@ -4,9 +4,9 @@
 
 :root {
   /* Brand & Semantic colors as RGB triplets for Tailwind <alpha-value> support */
-  --color-primary: 0 74 173; /* #004AAD */
-  --color-accent: 229 106 84; /* #E56A54 */
-  --color-accent-strong: 181 72 52; /* #B54834 - AA for white text */
+  --color-primary: 0 86 179; /* #0056B3 */
+  --color-accent: 235 107 86; /* #EB6B56 */
+  --color-accent-strong: 196 79 60; /* #C44F3C - AA for white text */
   --color-success: 14 159 110; /* #0E9F6E */
   --color-warning: 192 130 0; /* #C08200 */
   --color-error: 180 35 24; /* #B42318 */
@@ -24,6 +24,11 @@
 
 body {
   @apply bg-surface text-ink;
+}
+
+/* Force white surface when toggled */
+body.force-white-surface {
+  --color-surface: 255 255 255; /* #FFFFFF */
 }
 
 @layer utilities {

@@ -12,13 +12,7 @@ const NewsCenterCtx = createContext<Ctx | null>(null);
 export function NewsCenterProvider({ children }: { children: ReactNode }) {
   const [isOpen, setOpen] = useState(false);
 
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key.toLowerCase() === "u") setOpen(true);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  // Keyboard shortcut disabled per request
 
   return <NewsCenterCtx.Provider value={{ isOpen, setOpen }}>{children}</NewsCenterCtx.Provider>;
 }

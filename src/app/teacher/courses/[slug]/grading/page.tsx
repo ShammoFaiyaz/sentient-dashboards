@@ -17,7 +17,7 @@ export default function CourseGrading({ params }: { params: { slug: string } }) 
   ];
 
   return (
-    <div className="mx-auto max-w-6xl p-6">
+    <div className="mx-auto max-w-7xl px-2 py-6">
       <h1 className="text-2xl font-semibold text-primary">Grading - {course.title}</h1>
       <RelevantAgentsStrip
         agents={[

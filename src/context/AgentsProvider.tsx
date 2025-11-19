@@ -18,6 +18,16 @@ type AgentsContextValue = {
 const AgentsCtx = React.createContext<AgentsContextValue | null>(null);
 
 // Default 'Ready to demo' agents online by default
+// Can be overridden in production via NEXT_PUBLIC_SU_ONLINE_IDS (comma-separated ids)
+const ENV_ONLINE_IDS: Set<string> | null =
+  typeof process !== "undefined" && process.env.NEXT_PUBLIC_SU_ONLINE_IDS
+    ? new Set(
+        process.env.NEXT_PUBLIC_SU_ONLINE_IDS.split(",")
+          .map((s) => s.trim())
+          .filter(Boolean)
+      )
+    : null;
+
 const DEFAULT_ONLINE_IDS = new Set<string>([
   // Student
   "ai-tutor-writer",
@@ -42,27 +52,29 @@ const DEFAULT_ONLINE_IDS = new Set<string>([
 ]);
 
 export function AgentsProvider({ children }: { children: React.ReactNode }) {
+  // Start with deterministic defaults for SSR to avoid hydration mismatches
   const [list, setList] = React.useState<AgentWithRuntime[]>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const raw = window.localStorage.getItem("su_agents_state");
-        if (raw) {
-          const parsed = JSON.parse(raw) as any[];
-          if (Array.isArray(parsed)) {
-            // Be lenient: normalize missing fields instead of rejecting the whole saved state
-            const normalized: AgentWithRuntime[] = parsed
-              .filter((a) => a && typeof a.id === "string" && typeof a.name === "string" && typeof a.role === "string")
-              .map((a) => ({
-                ...a,
-                online: typeof a.online === "boolean" ? a.online : false,
-              }));
-            if (normalized.length > 0) return normalized;
+    const baseline = ENV_ONLINE_IDS ?? DEFAULT_ONLINE_IDS;
+    return seedAgents.map((a) => ({ ...a, online: baseline.has(a.id) }));
+  });
+
+  // After mount, load any saved state from localStorage (client-only)
+  React.useEffect(() => {
+    try {
+      const raw = typeof window !== "undefined" ? window.localStorage.getItem("su_agents_state") : null;
+      if (raw) {
+        const parsed = JSON.parse(raw) as any[];
+        if (Array.isArray(parsed)) {
+          const normalized: AgentWithRuntime[] = parsed
+            .filter((a) => a && typeof a.id === "string" && typeof a.name === "string" && typeof a.role === "string")
+            .map((a) => ({ ...a, online: typeof a.online === "boolean" ? a.online : false }));
+          if (normalized.length > 0) {
+            setList(normalized);
           }
         }
-      } catch {}
-    }
-    return seedAgents.map((a) => ({ ...a, online: DEFAULT_ONLINE_IDS.has(a.id) }));
-  });
+      }
+    } catch {}
+  }, []);
 
   // Persist changes so admin toggles apply site-wide and survive refresh/navigation
   React.useEffect(() => {

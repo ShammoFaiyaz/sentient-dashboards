@@ -133,7 +133,7 @@ function AgentsGrid({ items, onToggle, onRemove }: { items: ReturnType<typeof us
                aria-label="Toggle availability"
                aria-pressed={a.online}
              >
-               <span className={["h-5 w-5 rounded-full transition", a.online ? "bg-emerald-500" : "bg-neutral-400"].join(" ")} />
+              <span className={["h-5 w-5 rounded-full transition", a.online ? "bg-emerald-500" : "bg-error"].join(" ")} />
              </button>
            </div>
           <div className="absolute right-3 top-12 z-10">

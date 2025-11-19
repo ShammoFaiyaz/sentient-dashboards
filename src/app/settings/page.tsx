@@ -61,28 +61,7 @@ export default function SettingsPage() {
             <Button>Save</Button>
           </div>
         </Card>
-        <Card>
-          <CardTitle>Appearance</CardTitle>
-          <div className="mt-3 grid gap-3 md:grid-cols-2 text-sm">
-            <label className="block">
-              <div className="mb-1 text-neutral-dark/70">Theme</div>
-              <select value={theme} onChange={(e) => setTheme(e.target.value as any)} className="w-full rounded-md border border-line/60 p-2">
-                <option value="light">Light</option>
-                <option value="dark">Dark</option>
-              </select>
-            </label>
-            <label className="block">
-              <div className="mb-1 text-neutral-dark/70">Density</div>
-              <select value={density} onChange={(e) => setDensity(e.target.value as any)} className="w-full rounded-md border border-line/60 p-2">
-                <option value="comfortable">Comfortable</option>
-                <option value="compact">Compact</option>
-              </select>
-            </label>
-          </div>
-          <div className="mt-3 flex justify-end">
-            <Button>Save</Button>
-          </div>
-        </Card>
+        
         </div>
 
         <div className="mt-8 mb-2 text-xs font-medium uppercase tracking-wide text-muted">App settings</div>

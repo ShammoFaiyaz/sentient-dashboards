@@ -45,7 +45,7 @@ export function AgentTile({ agent, poweredByBLDR, status }: { agent: Agent; powe
 
       {status && (
         <div className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full border border-line/60 bg-white px-2 py-0.5 text-[11px] shadow-elevation-sm">
-          <span className={cn("h-2 w-2 rounded-full", status === "online" ? "bg-emerald-500" : "bg-neutral-400")} />
+          <span className={cn("h-2 w-2 rounded-full", status === "online" ? "bg-emerald-500" : "bg-error")} />
           <span className="text-xs text-ink/80 capitalize">{status}</span>
         </div>
       )}

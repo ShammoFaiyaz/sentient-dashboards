@@ -30,21 +30,25 @@ const ENV_ONLINE_IDS: Set<string> | null =
 
 const DEFAULT_ONLINE_IDS = new Set<string>([
   // Student
-  "digital-fluency-ethics",         // AI Literacy & Ethics Mentor
-  "ai-tutor-writer",                // AI Tutor & Writing Assistant
-  "career-coach",                   // Virtual Career Coach
-  "job-matching",                   // AI Job Matching
-  "skill-gap",                      // Skill-Gap Analyzer
-  "personalized-learning-paths",    // Personalized Learning Pathways
+  "ai-tutor-writer",
+  "student-chatbot",
+  "career-coach",
+  "wellbeing-risk",
+  "job-matching",
+  "skill-gap",
   // Teacher
-  "personalized-course-design",     // Personalized Course Designer
-  "faculty-copilot",                // Faculty Co‑Pilot
-  "genai-assistant",                // Generative Teaching Assistant
-  "ai-literacy-training",           // AI Literacy & Prompt Training
-  "integrated-course-design",       // AI‑Integrated Course Design
+  "faculty-copilot",
+  "genai-assistant",
+  "sim-training",
+  "ai-literacy-training",
+  "ai-collab-labs",
+  "integrated-course-design",
+  "ai-research-tools",
   // Admin
-  "nlp-doc-automation",             // NLP Documentation Automation
-  "policy-drafter",                 // LLM Policy Drafter
+  "virtual-admissions",
+  "personalized-outreach",
+  "staff-onboarding",
+  "ai-coaching-tools",
 ]);
 
 export function AgentsProvider({ children }: { children: React.ReactNode }) {

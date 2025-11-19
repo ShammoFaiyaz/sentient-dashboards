@@ -6,7 +6,7 @@
  import { Button } from "@/components/ui/Button";
  
  export default function AdminAgents() {
-  const { agentsByRole, toggleOnline, createAgent, removeAgent } = useAgents();
+ const { agentsByRole, toggleOnline, createAgent, removeAgent, setAllOffline } = useAgents();
    const students = agentsByRole("student");
    const teachers = agentsByRole("teacher");
    const admins = agentsByRole("admin");
@@ -27,7 +27,10 @@
     setName(""); setDescription(""); setCategory("General"); setRole("admin"); setBullet1(""); setBullet2(""); setOpenForm(false);
    }
   return (
-    <div className="mx-auto max-w-7xl px-1.5 py-4">
+    <div className="mx-auto max-w-7xl px-3 md:px-1.5 py-4">
+      {/* <div className="flex items-center justify-end gap-2">
+        <Button variant="danger" onClick={setAllOffline}>Set all offline</Button>
+      </div> */}
       {/* <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold text-primary">Agent Management</h1>

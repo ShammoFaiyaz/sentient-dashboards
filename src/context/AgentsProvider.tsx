@@ -10,6 +10,7 @@ type AgentsContextValue = {
   agentsByRole: (role: AgentRole, opts?: { onlyOnline?: boolean }) => AgentWithRuntime[];
   setOnline: (id: string, online: boolean) => void;
   toggleOnline: (id: string) => void;
+  setAllOffline: () => void;
   createAgent: (agent: Omit<Agent, "id"> & { id?: string }) => AgentWithRuntime;
   removeAgent: (id: string) => void;
 };
@@ -41,9 +42,36 @@ const DEFAULT_ONLINE_IDS = new Set<string>([
 ]);
 
 export function AgentsProvider({ children }: { children: React.ReactNode }) {
-  const [list, setList] = React.useState<AgentWithRuntime[]>(() =>
-    seedAgents.map((a) => ({ ...a, online: DEFAULT_ONLINE_IDS.has(a.id) }))
-  );
+  const [list, setList] = React.useState<AgentWithRuntime[]>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const raw = window.localStorage.getItem("su_agents_state");
+        if (raw) {
+          const parsed = JSON.parse(raw) as any[];
+          if (Array.isArray(parsed)) {
+            // Be lenient: normalize missing fields instead of rejecting the whole saved state
+            const normalized: AgentWithRuntime[] = parsed
+              .filter((a) => a && typeof a.id === "string" && typeof a.name === "string" && typeof a.role === "string")
+              .map((a) => ({
+                ...a,
+                online: typeof a.online === "boolean" ? a.online : false,
+              }));
+            if (normalized.length > 0) return normalized;
+          }
+        }
+      } catch {}
+    }
+    return seedAgents.map((a) => ({ ...a, online: DEFAULT_ONLINE_IDS.has(a.id) }));
+  });
+
+  // Persist changes so admin toggles apply site-wide and survive refresh/navigation
+  React.useEffect(() => {
+    try {
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem("su_agents_state", JSON.stringify(list));
+      }
+    } catch {}
+  }, [list]);
 
   const agentsByRole = React.useCallback(
     (role: AgentRole, opts?: { onlyOnline?: boolean }) => {
@@ -61,6 +89,19 @@ export function AgentsProvider({ children }: { children: React.ReactNode }) {
     setList((prev) => prev.map((a) => (a.id === id ? { ...a, online: !a.online } : a)));
   }, []);
 
+  const setAllOffline = React.useCallback(() => {
+    setList((prev) => {
+      const next = prev.map((a) => ({ ...a, online: false }));
+      // Persist immediately to reduce chances of stale defaults on reload
+      try {
+        if (typeof window !== "undefined") {
+          window.localStorage.setItem("su_agents_state", JSON.stringify(next));
+        }
+      } catch {}
+      return next;
+    });
+  }, []);
+
   const createAgent = React.useCallback(
     (agent: Omit<Agent, "id"> & { id?: string }) => {
       const id = agent.id ?? agent.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 40);
@@ -76,8 +117,8 @@ export function AgentsProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const value = React.useMemo<AgentsContextValue>(
-    () => ({ agents: list, agentsByRole, setOnline, toggleOnline, createAgent, removeAgent }),
-    [list, agentsByRole, setOnline, toggleOnline, createAgent, removeAgent]
+    () => ({ agents: list, agentsByRole, setOnline, toggleOnline, setAllOffline, createAgent, removeAgent }),
+    [list, agentsByRole, setOnline, toggleOnline, setAllOffline, createAgent, removeAgent]
   );
 
   return <AgentsCtx.Provider value={value}>{children}</AgentsCtx.Provider>;

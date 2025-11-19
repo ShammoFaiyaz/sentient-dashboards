@@ -7,11 +7,12 @@ import { ProgressBar } from "@/components/ui/ProgressBar";
 import { studentCourses } from "@/mock/courses";
 import { EmptyState } from "@/components/EmptyState";
 import { AgentTile } from "@/components/AgentTile";
-import { agents } from "@/mock/agents";
+import { useAgents } from "@/context/AgentsProvider";
 import { Button } from "@/components/ui/Button";
 
 export default function StudentCourses() {
   const router = useRouter();
+  const { agents } = useAgents();
   const meta: Record<string, { instructor: string; period: string }> = {
     "algorithms": { instructor: "Prof. Rivera", period: "Oct–Dec, 10 weeks" },
     "ethics": { instructor: "Dr. Patel", period: "Oct–Dec, 8 weeks" },
@@ -36,7 +37,7 @@ export default function StudentCourses() {
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {["ai-tutor-writer","digital-fluency-ethics","student-chatbot"].map(id => {
             const a = agents.find(x=>x.id===id);
-            return a ? <AgentTile key={a.id} agent={a} /> : null;
+            return a ? <AgentTile key={a.id} agent={a} status={a.online ? "online" : "offline"} /> : null;
           })}
         </div>
       </section>

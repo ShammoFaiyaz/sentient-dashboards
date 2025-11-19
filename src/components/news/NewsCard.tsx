@@ -4,9 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { NewsItem } from "@/types/news";
 import { cn } from "@/components/ui/Button";
+import * as React from "react";
 
 export default function NewsCard({ item }: { item: NewsItem }) {
-	const isNew = Date.now() - new Date(item.publishedAt).getTime() < 48 * 60 * 60 * 1000;
+	const [mounted, setMounted] = React.useState(false);
+	React.useEffect(() => setMounted(true), []);
+	const isNew = mounted && Date.now() - new Date(item.publishedAt).getTime() < 48 * 60 * 60 * 1000;
 
 	return (
 		<Link
@@ -33,7 +36,17 @@ export default function NewsCard({ item }: { item: NewsItem }) {
 			<div className="p-4">
 				<h3 className="text-base font-semibold leading-tight group-hover:underline">{item.title}</h3>
 				<p className="mt-1 line-clamp-2 text-sm text-neutral-600 dark:text-neutral-400">{item.description}</p>
-				<div className="mt-3 text-xs text-neutral-500">{new Date(item.publishedAt).toLocaleString()}</div>
+				<div className="mt-3 text-xs text-neutral-500" suppressHydrationWarning>
+					{new Intl.DateTimeFormat("en-US", {
+						year: "numeric",
+						month: "short",
+						day: "2-digit",
+						hour: "2-digit",
+						minute: "2-digit",
+						hour12: true,
+						timeZone: "UTC",
+					}).format(new Date(item.publishedAt))}
+				</div>
 			</div>
 		</Link>
 	);

@@ -8,13 +8,16 @@ import { AgentTile } from "@/components/AgentTile";
 import { useToast } from "@/components/ui/Toast";
 import { useAgents } from "@/context/AgentsProvider";
 import NewsCarousel from "@/components/news/NewsCarousel";
+import * as React from "react";
 
 export default function StudentDashboard() {
   const { show } = useToast();
   const router = useRouter();
   const { agentsByRole } = useAgents();
-  const featured = agentsByRole("student", { onlyOnline: true }).slice(0, 3);
+  const featured = agentsByRole("student").slice(0, 3);
   const now = new Date();
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => setMounted(true), []);
   const deadlines = [
     { label: "Ethics essay draft", date: new Date(now.getFullYear(), 10, 12) }, // Nov is month 10 (0-based)
     { label: "Data structures lab", date: new Date(now.getFullYear(), 10, 14) },
@@ -40,18 +43,19 @@ export default function StudentDashboard() {
         />
         <KpiTile label="Avg progress" value="64%" hint="across courses" colorHex="#6D28D9" bgGradient="linear-gradient(180deg, rgba(109,40,217,0.12) 0%, rgba(255,255,255,1) 100%)" onClick={() => router.push("/student/courses")}>
           <ul className="mt-2 list-inside list-disc text-xs text-neutral-700">
-            {deadlines.map((d) => {
-              const days = Math.max(0, Math.ceil((d.date.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
-              const dateLabel = d.date.toLocaleString(undefined, { month: "short", day: "numeric" });
-              return (
-                <li key={d.label}>
-                  {d.label} - {dateLabel}{" "}
-                  <span className="ml-1 text-error">
-                    {days === 0 ? "(today)" : `(${days} day${days === 1 ? "" : "s"} left)`}
-                  </span>
-                </li>
-              );
-            })}
+            {mounted &&
+              deadlines.map((d) => {
+                const days = Math.max(0, Math.ceil((d.date.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
+                const dateLabel = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" }).format(d.date);
+                return (
+                  <li key={d.label} suppressHydrationWarning>
+                    {d.label} - {dateLabel}{" "}
+                    <span className="ml-1 text-error">
+                      {days === 0 ? "(today)" : `(${days} day${days === 1 ? "" : "s"} left)`}
+                    </span>
+                  </li>
+                );
+              })}
           </ul>
         </KpiTile>
         <KpiTile label="Unread messages" value="3" hint="Mentor & TA" colorHex="#F4B23E" bgGradient="linear-gradient(180deg, rgba(244,178,62,0.18) 0%, rgba(255,255,255,1) 100%)" onClick={() => router.push("/updates")}>
@@ -75,7 +79,7 @@ export default function StudentDashboard() {
         </div>
         <div className="grid gap-4 md:grid-cols-4">
           {featured.map((a) => (
-            <AgentTile key={a.id} agent={a} status="online" />
+            <AgentTile key={a.id} agent={a} status={a.online ? "online" : "offline"} />
           ))}
         </div>
       </section>

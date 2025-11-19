@@ -44,7 +44,17 @@ export default function NewsCenterSheet() {
                     <Image src={n.imageSrc} alt={n.title} fill className="object-cover" />
                   </div>
                   <div className="flex-1">
-                    <div className="text-xs text-neutral-500">{new Date(n.publishedAt).toLocaleString()}</div>
+                    <div className="text-xs text-neutral-500" suppressHydrationWarning>
+                      {new Intl.DateTimeFormat("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "2-digit",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: true,
+                        timeZone: "UTC",
+                      }).format(new Date(n.publishedAt))}
+                    </div>
                     <h3 className="text-sm font-semibold">{n.title}</h3>
                     <p className="text-sm text-neutral-600 dark:text-neutral-400 line-clamp-2">{n.description}</p>
                   </div>

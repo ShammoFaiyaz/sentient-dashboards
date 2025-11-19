@@ -7,6 +7,8 @@ import { useRole } from "@/components/role/RoleProvider";
 import Image from "next/image";
 import { Settings } from "lucide-react";
 import { AppFooter } from "@/components/layout/AppFooter";
+import { useAgents } from "@/context/AgentsProvider";
+import * as React from "react";
 
 type NavItem = { label: string; href: string; icon: any };
 
@@ -39,7 +41,12 @@ function getNav(role: "student" | "teacher" | "admin"): NavItem[] {
 export default function Sidebar({ mobile = false }: { mobile?: boolean } = {}) {
   const pathname = usePathname();
   const { role } = useRole();
+  const { agents } = useAgents();
   const navItems = getNav(role);
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => setMounted(true), []);
+  const activeCount = mounted ? agents.filter(a => a.online).length : 0;
+  const totalCount = mounted ? agents.length : 0;
 
   return (
     <aside
@@ -56,14 +63,16 @@ export default function Sidebar({ mobile = false }: { mobile?: boolean } = {}) {
 
       <div className="mt-0 px-6">
         <div className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-50 px-3 py-2 text-emerald-700">
-          <span className="h-2 w-2 rounded-full bg-emerald-500" />
-          <span className="text-medium font-medium">Connected</span>
+          <span className={`h-2 w-2 rounded-full ${mounted && activeCount > 0 ? "bg-emerald-500" : "bg-neutral-400"}`} />
+          <span className="text-medium font-medium" suppressHydrationWarning>
+            {mounted && activeCount > 0 ? "Connected" : "Offline"}
+          </span>
         </div>
 
         <div className="mt-6 px-0">
         <div className="mb-3 text-base font-semibold text-zinc-700">Agent Overview</div>
         <div className="grid grid-cols-2 gap-2">
-          <SidebarStatTile href={`/${role}/agents`} label="Agents active" value="17" hint="of 49 active" colorHex="#004AAD" bgGradient="linear-gradient(180deg, rgba(0,74,173,0.12) 0%, rgba(255,255,255,1) 100%)" Icon={Bot} />
+          <SidebarStatTile href={`/${role}/agents`} label="Agents active" value={mounted ? `${activeCount}` : "—"} hint={mounted ? `of ${totalCount} active` : "loading…"} colorHex="#004AAD" bgGradient="linear-gradient(180deg, rgba(0,74,173,0.12) 0%, rgba(255,255,255,1) 100%)" Icon={Bot} />
           <SidebarStatTile href={`/${role}/agents`} label="Automation runs" value="128" hint="runs" colorHex="#008C74" bgGradient="linear-gradient(180deg, rgba(0,140,116,0.14) 0%, rgba(255,255,255,1) 100%)" Icon={Sparkles} />
           <SidebarStatTile href={`/${role}/agents`} label="Avg response" value="1.4s" hint="last hour" colorHex="#6D28D9" bgGradient="linear-gradient(180deg, rgba(109,40,217,0.12) 0%, rgba(255,255,255,1) 100%)" Icon={Timer} />
           <SidebarStatTile href={`/${role}/agents`} label="Agent skills" value="42" hint="loaded" colorHex="#F4B23E" bgGradient="linear-gradient(180deg, rgba(244,178,62,0.18) 0%, rgba(255,255,255,1) 100%)" Icon={Brain} />
@@ -126,8 +135,8 @@ function SidebarStatTile({ href, label, value, hint, colorHex, bgGradient, Icon 
         </div>
         <span className="max-w-[9.5rem] break-words pr-1 text-sm font-medium leading-tight" style={{ color: colorHex }}>{label}</span>
       </div>
-      <div className="mt-2 text-3xl font-semibold" style={{ color: colorHex }}>{value}</div>
-      <div className="text-xs text-zinc-600">{hint}</div>
+      <div className="mt-2 text-3xl font-semibold" style={{ color: colorHex }} suppressHydrationWarning>{value}</div>
+      <div className="text-xs text-zinc-600" suppressHydrationWarning>{hint}</div>
     </Link>
   );
 }

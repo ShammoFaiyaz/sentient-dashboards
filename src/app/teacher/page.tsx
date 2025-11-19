@@ -10,7 +10,7 @@ import NewsCarousel from "@/components/news/NewsCarousel";
 export default function TeacherDashboard() {
   const router = useRouter();
   const { agentsByRole } = useAgents();
-  const featured = agentsByRole("teacher", { onlyOnline: true }).slice(0, 4);
+  const featured = agentsByRole("teacher").slice(0, 4);
   return (
     <div className="mx-auto max-w-7xl px-2 py-6">
       {/* <h1 className="text-2xl font-semibold text-primary">Teacher Dashboard</h1> */}
@@ -51,7 +51,7 @@ export default function TeacherDashboard() {
         </div>
         <div className="grid gap-4 md:grid-cols-4">
           {featured.map((a) => (
-            <AgentTile key={a.id} agent={a} status="online" />
+            <AgentTile key={a.id} agent={a} status={a.online ? "online" : "offline"} />
           ))}
         </div>
       </section>

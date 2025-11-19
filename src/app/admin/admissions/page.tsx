@@ -13,7 +13,6 @@ import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { useToast } from "@/components/ui/Toast";
 import { AgentTile } from "@/components/AgentTile";
-import { agents } from "@/mock/agents";
 
 export const dynamic = "force-dynamic";
 
@@ -74,7 +73,7 @@ function AdminAdmissions() {
   , [program, minScore, docs, visa, fee, q]);
 
   const { agentsByRole } = useAgents();
-  const featured = agentsByRole("admin", { onlyOnline: true }).slice(0, 4);
+  const featured = agentsByRole("admin").slice(0, 4);
   return (
     <div className="mx-auto max-w-7xl px-2 py-6">
       {/* <h1 className="text-2xl font-semibold text-primary">Admissions</h1> */}
@@ -93,7 +92,7 @@ function AdminAdmissions() {
         </div>
         <div className="grid gap-4 md:grid-cols-4">
           {featured.map((a) => (
-            <AgentTile key={a.id} agent={a} status="online" />
+            <AgentTile key={a.id} agent={a} status={a.online ? "online" : "offline"} />
           ))}
         </div>
       </section>

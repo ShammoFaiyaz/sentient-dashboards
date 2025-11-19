@@ -7,14 +7,13 @@ import { Button } from "@/components/ui/Button";
 import { useToast } from "@/components/ui/Toast";
 import { useMemo, useState } from "react";
 import { AgentTile } from "@/components/AgentTile";
-import { agents } from "@/mock/agents";
 import { useAgents } from "@/context/AgentsProvider";
 import Link from "next/link";
 
 export default function AdminEnrollment() {
   const { show } = useToast();
   const { agentsByRole } = useAgents();
-  const featured = agentsByRole("admin", { onlyOnline: true }).slice(0, 4);
+  const featured = agentsByRole("admin").slice(0, 4);
   const initialConflicts = useMemo(() => ([
     { id: "c1", course: "Algorithms", section: "A", issue: "Overlap with Physics", suggestion: "Shift Algorithms to 11:30–12:45" },
     { id: "c2", course: "Human-AI Ethics", section: "B", issue: "Room capacity exceeded", suggestion: "Move 5 seats to section C" },
@@ -50,7 +49,7 @@ export default function AdminEnrollment() {
         </div>
         <div className="grid gap-4 md:grid-cols-4">
           {featured.map((a) => (
-            <AgentTile key={a.id} agent={a} status="online" />
+            <AgentTile key={a.id} agent={a} status={a.online ? "online" : "offline"} />
           ))}
         </div>
       </section>

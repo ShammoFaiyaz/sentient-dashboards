@@ -94,7 +94,7 @@ export default function PatientOverviewPage() {
               </tbody>
             </table>
           </div>
-          <div className="mt-2 text-[11px] text-muted">Live schedule and status for today's clinic.</div>
+          <div className="mt-2 text-[11px] text-muted">Live schedule and status for today’s clinic.</div>
         </div>
 
         {/* Weekly bar chart with labels */}

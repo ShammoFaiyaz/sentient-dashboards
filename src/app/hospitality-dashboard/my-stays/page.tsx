@@ -135,8 +135,8 @@ export default function HospitalityMyStaysPage() {
   );
 }
 
-// Extra detailed sections (6)
-export function MyStaysExtraSections() {
+// Extra detailed sections (6) – local helper, not exported as a Page field
+function MyStaysExtraSections() {
   return (
     <div className="mt-6 grid gap-4 md:grid-cols-3">
       <div className="rounded-2xl border border-line/60 bg-white p-4 shadow-elevation-sm">

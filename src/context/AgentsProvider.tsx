@@ -28,26 +28,9 @@ const ENV_ONLINE_IDS: Set<string> | null =
       )
     : null;
 
-const DEFAULT_ONLINE_IDS = new Set<string>([
-  // Student
-  "digital-fluency-ethics",       // AI Literacy & Ethics Mentor
-  "ai-tutor-writer",              // AI Tutor & Writing Assistant
-  "career-coach",                 // Virtual Career Coach
-  "job-matching",                 // AI Job Matching
-  "skill-gap",                    // Skill-Gap Analyzer
-  "personalized-learning-paths",  // Personalized Learning Pathways
-  // Teacher
-  "personalized-course-design",   // Personalized Course Designer
-  "faculty-copilot",              // Faculty Co‑Pilot
-  "genai-assistant",              // Generative Teaching Assistant
-  "ai-literacy-training",         // AI Literacy & Prompt Training
-  "integrated-course-design",     // AI‑Integrated Course Design
-  // Admin
-  "nlp-doc-automation",           // NLP Documentation Automation
-  "policy-drafter",               // LLM Policy Drafter
-]);
+const DEFAULT_ONLINE_IDS = new Set<string>([]);
 
-export function AgentsProvider({ children }: { children: React.ReactNode }) {
+export function AgentsProvider({ children, storageKey = "su_agents_state" }: { children: React.ReactNode; storageKey?: string }) {
   // Start with deterministic defaults for SSR to avoid hydration mismatches
   const [list, setList] = React.useState<AgentWithRuntime[]>(() => {
     const baseline = ENV_ONLINE_IDS ?? DEFAULT_ONLINE_IDS;
@@ -57,29 +40,47 @@ export function AgentsProvider({ children }: { children: React.ReactNode }) {
   // After mount, load any saved state from localStorage (client-only)
   React.useEffect(() => {
     try {
-      const raw = typeof window !== "undefined" ? window.localStorage.getItem("su_agents_state") : null;
+      const raw = typeof window !== "undefined" ? window.localStorage.getItem(storageKey) : null;
       if (raw) {
         const parsed = JSON.parse(raw) as any[];
         if (Array.isArray(parsed)) {
-          const normalized: AgentWithRuntime[] = parsed
-            .filter((a) => a && typeof a.id === "string" && typeof a.name === "string" && typeof a.role === "string")
-            .map((a) => ({ ...a, online: typeof a.online === "boolean" ? a.online : false }));
-          if (normalized.length > 0) {
-            setList(normalized);
+          // Reconcile saved state with current seed agents:
+          // - Drop any agents that no longer exist
+          // - Keep online flags for matching ids
+          // - Add any new seed agents as offline
+          const seedById = new Map(seedAgents.map((a) => [a.id, a]));
+          const savedById = new Map<string, AgentWithRuntime>();
+          for (const a of parsed) {
+            if (a && typeof a.id === "string") {
+              const seed = seedById.get(a.id);
+              if (seed) {
+                savedById.set(a.id, {
+                  ...seed,
+                  online: typeof a.online === "boolean" ? a.online : false,
+                });
+              }
+            }
           }
+          // Add any missing seed agents (new ones) as offline
+          for (const seed of seedAgents) {
+            if (!savedById.has(seed.id)) {
+              savedById.set(seed.id, { ...seed, online: false });
+            }
+          }
+          setList(Array.from(savedById.values()));
         }
       }
     } catch {}
-  }, []);
+  }, [storageKey]);
 
   // Persist changes so admin toggles apply site-wide and survive refresh/navigation
   React.useEffect(() => {
     try {
       if (typeof window !== "undefined") {
-        window.localStorage.setItem("su_agents_state", JSON.stringify(list));
+        window.localStorage.setItem(storageKey, JSON.stringify(list));
       }
     } catch {}
-  }, [list]);
+  }, [list, storageKey]);
 
   const agentsByRole = React.useCallback(
     (role: AgentRole, opts?: { onlyOnline?: boolean }) => {
@@ -103,12 +104,12 @@ export function AgentsProvider({ children }: { children: React.ReactNode }) {
       // Persist immediately to reduce chances of stale defaults on reload
       try {
         if (typeof window !== "undefined") {
-          window.localStorage.setItem("su_agents_state", JSON.stringify(next));
+          window.localStorage.setItem(storageKey, JSON.stringify(next));
         }
       } catch {}
       return next;
     });
-  }, []);
+  }, [storageKey]);
 
   const createAgent = React.useCallback(
     (agent: Omit<Agent, "id"> & { id?: string }) => {

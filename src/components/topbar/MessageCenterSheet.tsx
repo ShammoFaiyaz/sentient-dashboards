@@ -1,18 +1,130 @@
 "use client";
 
 import { useMessageCenter } from "@/context/MessageCenterContext";
+import { usePathname } from "next/navigation";
+import { useNicheRole } from "@/components/niche/useNicheRole";
+import { useRole } from "@/components/role/RoleProvider";
 import { X, Search, SquarePen } from "lucide-react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 
-const DEMO_THREADS = [
-  { id: "t1", name: "Admissions Support", last: "We received your docs ✔", avatar: "/news/policy.svg", unread: 1 },
-  { id: "t2", name: "Algorithms – Section A", last: "Quiz 2 starts at 3pm.", avatar: "/news/lab.svg", unread: 2 },
-  { id: "t3", name: "Career Coach", last: "Mock interview link shared.", avatar: "/news/ai.svg", unread: 0 },
-];
+function useRoleAwareThreads() {
+  const pathname = usePathname();
+  const { role } = useRole();
+  const insRole = useNicheRole("insurance-dashboard", "Claims Adjuster");
+  const finRole = useNicheRole("fintech-dashboard", "Portfolio Manager");
+  const hcRole = useNicheRole("healthcare-dashboard", "Doctor");
+  const hospRole = useNicheRole("hospitality-dashboard", "Guest");
+  const retailRole = useNicheRole("retail-dashboard", "Store Manager");
+  if (pathname?.startsWith("/insurance-dashboard")) {
+    if (insRole === "Claims Adjuster") {
+      return [
+        { id: "t1", name: "Customer • CLM-10245", last: "Uploaded photos for FNOL.", avatar: "/news/policy.svg", unread: 1 },
+        { id: "t2", name: "Supervisor", last: "Please prioritize SLA cases.", avatar: "/news/lab.svg", unread: 1 },
+      ];
+    } else if (insRole === "Underwriter") {
+      return [
+        { id: "t3", name: "Broker • UWR-884", last: "Shared additional docs.", avatar: "/news/ai.svg", unread: 1 },
+        { id: "t4", name: "Pricing Team", last: "Review the new rate card.", avatar: "/news/lab.svg", unread: 0 },
+      ];
+    } else if (insRole === "Customer") {
+      return [
+        { id: "t5", name: "Support", last: "Your claim moved to review.", avatar: "/news/policy.svg", unread: 1 },
+      ];
+    }
+  }
+  if (pathname?.startsWith("/fintech-dashboard")) {
+    if (finRole === "Portfolio Manager") {
+      return [
+        { id: "ft1", name: "Trader Desk", last: "Filled order for ETF rebalancing.", avatar: "/news/ai.svg", unread: 1 },
+        { id: "ft2", name: "Risk Officer", last: "Please review VaR jump (1d).", avatar: "/news/lab.svg", unread: 0 },
+      ];
+    } else if (finRole === "Customer") {
+      return [
+        { id: "ft3", name: "Support", last: "Your card dispute is under review.", avatar: "/news/policy.svg", unread: 1 },
+        { id: "ft4", name: "Personal Finance Agent", last: "Budget suggestion for this month.", avatar: "/news/ai.svg", unread: 0 },
+      ];
+    } else if (finRole === "Risk Officer") {
+      return [
+        { id: "ft5", name: "PM – Growth Fund", last: "Hedging proposal acknowledged.", avatar: "/news/lab.svg", unread: 1 },
+      ];
+    } else {
+      return [{ id: "ft6", name: "System", last: "New rule changes deployed.", avatar: "/news/policy.svg", unread: 1 }];
+    }
+  }
+  if (pathname?.startsWith("/healthcare-dashboard")) {
+    if (hcRole === "Doctor") {
+      return [
+        { id: "hc1", name: "Patient – J. Evans", last: "Shared new symptoms before visit.", avatar: "/news/lab.svg", unread: 1 },
+        { id: "hc2", name: "Lab Services", last: "CBC results available.", avatar: "/news/policy.svg", unread: 1 },
+      ];
+    } else if (hcRole === "Patient") {
+      return [
+        { id: "hc3", name: "Clinic Desk", last: "Appointment confirmed for Fri 10:00.", avatar: "/news/ai.svg", unread: 1 },
+        { id: "hc4", name: "Care Team", last: "Medication reminder for tonight.", avatar: "/news/lab.svg", unread: 0 },
+      ];
+    } else {
+      return [{ id: "hc5", name: "IT Admin", last: "EHR integration running normally.", avatar: "/news/policy.svg", unread: 0 }];
+    }
+  }
+  if (pathname?.startsWith("/hospitality-dashboard")) {
+    if (hospRole === "Front Desk") {
+      return [
+        { id: "hp1", name: "Guest – S. Patel", last: "Late arrival noted, prepare key.", avatar: "/news/ai.svg", unread: 1 },
+        { id: "hp2", name: "Housekeeping Lead", last: "Room 1602 needs crib setup.", avatar: "/news/lab.svg", unread: 0 },
+      ];
+    } else if (hospRole === "Guest") {
+      return [
+        { id: "hp3", name: "Front Desk", last: "Your airport pickup is confirmed.", avatar: "/news/policy.svg", unread: 1 },
+        { id: "hp4", name: "Concierge", last: "Dinner reservation set for 7:30 PM.", avatar: "/news/ai.svg", unread: 0 },
+      ];
+    } else if (hospRole === "Ops Manager") {
+      return [
+        { id: "hp5", name: "Maintenance", last: "Leak fixed at Block B.", avatar: "/news/lab.svg", unread: 1 },
+        { id: "hp6", name: "Front Desk", last: "Need extra agent 18:00–20:00.", avatar: "/news/policy.svg", unread: 0 },
+      ];
+    } else {
+      return [{ id: "hp7", name: "System", last: "All integrations healthy.", avatar: "/news/policy.svg", unread: 0 }];
+    }
+  }
+  if (pathname?.startsWith("/retail-dashboard")) {
+    if (retailRole === "Store Manager") {
+      return [
+        { id: "rt1", name: "Floor Lead", last: "Promotion signs placed.", avatar: "/news/ai.svg", unread: 1 },
+        { id: "rt2", name: "Inventory", last: "Backorder ETA updated.", avatar: "/news/lab.svg", unread: 0 },
+      ];
+    } else if (retailRole === "Customer") {
+      return [
+        { id: "rt3", name: "Support", last: "Order shipped with tracking.", avatar: "/news/policy.svg", unread: 1 },
+      ];
+    } else if (retailRole === "Merchandiser") {
+      return [
+        { id: "rt4", name: "Supplier – O‑Textiles", last: "New fabric samples shared.", avatar: "/news/lab.svg", unread: 1 },
+      ];
+    } else {
+      return [{ id: "rt5", name: "System", last: "New analytics dashboard enabled.", avatar: "/news/policy.svg", unread: 0 }];
+    }
+  }
+  if (role === "teacher") {
+    return [
+      { id: "t6", name: "Class – Section A", last: "Quiz opens today 3pm.", avatar: "/news/lab.svg", unread: 2 },
+      { id: "t7", name: "Dept. Admin", last: "Room change confirmed.", avatar: "/news/ai.svg", unread: 0 },
+    ];
+  }
+  if (role === "student") {
+    return [
+      { id: "t8", name: "Admissions", last: "We received your docs ✔", avatar: "/news/policy.svg", unread: 1 },
+      { id: "t9", name: "Career Coach", last: "Mock interview link shared.", avatar: "/news/ai.svg", unread: 0 },
+    ];
+  }
+  return [
+    { id: "t10", name: "System", last: "Welcome to the platform!", avatar: "/news/policy.svg", unread: 0 },
+  ];
+}
 
 export default function MessageCenterSheet() {
   const { isOpen, setOpen, setUnread } = useMessageCenter();
+  const threads = useRoleAwareThreads();
   return (
     <AnimatePresence>
       {isOpen && (
@@ -54,7 +166,7 @@ export default function MessageCenterSheet() {
               </div>
 
               <ul className="mt-4 space-y-2">
-                {DEMO_THREADS.map((t) => (
+                {threads.map((t) => (
                   <li key={t.id}>
                     <button
                       onClick={() => setUnread((u) => Math.max(0, u - t.unread))}

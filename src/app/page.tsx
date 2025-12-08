@@ -9,14 +9,14 @@ export default function Home() {
   const { role } = useRole();
 
   useEffect(() => {
-    const target = role === "teacher" ? "/teacher" : role === "admin" ? "/admin" : "/student";
-    router.replace(target);
+    // SU dashboards removed; default to a live niche dashboard
+    router.replace("/fintech-dashboard");
   }, [role, router]);
 
   return (
     <div className="mx-auto max-w-4xl p-6">
       <h1 className="text-2xl font-semibold text-primary">Loading dashboard…</h1>
-      <p className="text-neutral-dark/70">Redirecting based on your selected role.</p>
+      <p className="text-neutral-dark/70">Redirecting to Sentient Dashboard.</p>
     </div>
   );
 }

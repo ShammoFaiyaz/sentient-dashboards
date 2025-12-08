@@ -3,6 +3,8 @@
 import * as React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Bot, X } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { NICHES } from "@/niches/config";
 
 type Message = { role: "user" | "assistant"; content: string };
 
@@ -10,7 +12,13 @@ export function AssistantDrawer() {
   const [open, setOpen] = React.useState(false);
   const [input, setInput] = React.useState("");
   const [messages, setMessages] = React.useState<Message[]>([]);
-  const SYSTEM_TEXT = "I'm your copilot for Sentient University. How can I help you today?";
+  const pathname = usePathname() || "/";
+  // Determine active dashboard title for dynamic copilot greeting
+  const nicheKey = (Object.keys(NICHES) as Array<keyof typeof NICHES>).find((s) =>
+    pathname.startsWith("/" + s)
+  );
+  const dashboardTitle = nicheKey ? NICHES[nicheKey].title : "Sentient University";
+  const SYSTEM_TEXT = `I'm your copilot for ${dashboardTitle}. How can I help you today?`;
 
   function send(text?: string) {
     const content = (text ?? input).trim();
@@ -103,11 +111,6 @@ export function AssistantDrawer() {
               </div>
 
               <div className="border-t border-line/60 p-3">
-                <div className="mb-2 flex flex-wrap gap-2">
-                  <QuickChip label="Find course" />
-                  <QuickChip label="Explain policy" />
-                  <QuickChip label="Draft email" />
-                </div>
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();

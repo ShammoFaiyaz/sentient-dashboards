@@ -15,7 +15,7 @@
   --color-ink: 31 41 55; /* #1F2937 */
   --color-muted: 107 114 128; /* #6B7280 */
   --color-line: 221 226 231; /* #DDE2E7 */
-  --color-surface: 249 248 243; /* #F9F8F3 */
+  --color-surface: 255 255 255; /* #FFFFFF */
 
   /* Shadows */
   --shadow-elevation-sm: 0 2px 8px rgba(0,0,0,.08);
@@ -39,7 +39,8 @@ body.force-white-surface {
 
 @layer base {
   h1 { @apply text-2xl font-semibold text-primary; }
-  h2 { @apply text-lg font-medium text-muted; }
+  h2 { @apply text-lg font-medium text-primary; }
+  h3 { @apply font-semibold text-primary; }
 }
 
 /* Accessible focus styles */
@@ -89,4 +90,11 @@ body.force-white-surface {
 .density-compact .list-disc li {
   padding-top: 2px;
   padding-bottom: 2px;
+}
+
+/* Narrow page horizontal padding globally (without touching KPI styles) */
+main .mx-auto.max-w-7xl {
+  max-width: 100% !important;       /* expand content to full width of main area */
+  padding-left: 1.5rem !important;   /* ~8px */
+  padding-right: 1.5rem !important;  /* ~8px */
 }

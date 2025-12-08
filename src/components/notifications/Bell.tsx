@@ -36,7 +36,7 @@ export function NotificationBell() {
         )}
       </button>
       {open && (
-        <div className="absolute right-0 z-50 mt-2 w-80 rounded-xl border border-line/60 bg-white p-2 shadow-[0_12px_24px_rgba(0,0,0,0.12)]">
+        <div className="absolute right-0 z-50 mt-2 w-[92vw] max-w-[320px] sm:w-80 sm:max-w-none rounded-xl border border-line/60 bg-white p-2 shadow-[0_12px_24px_rgba(0,0,0,0.12)]">
           <div className="mb-1 flex items-center justify-between px-2">
             <div className="text-xs text-muted">Notifications</div>
             <button onClick={markAllRead} className="rounded-control px-2 py-1 text-[11px] text-primary hover:bg-primary/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">

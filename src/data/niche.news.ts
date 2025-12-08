@@ -1,0 +1,70 @@
+import { NewsItem } from "@/types/news";
+
+// Use Unsplash static images (specific photos that are broadly relevant to each niche)
+const img = (id: string) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1600&q=80`;
+const nowIso = () => new Date().toISOString();
+
+export const NEWS_BY_NICHE: Record<string, NewsItem[]> = {
+  "fintech-dashboard": [
+    { id: "ft1", title: "Spending Insights Agent Adds Category Rules", description: "Auto‑categorization improvements for wallets and cards.", tag: "Announcement", imageSrc: img("photo-1556740749-887f6717d7e4"), href: "#", publishedAt: nowIso(), content: ["Improved rules help separate subscriptions, utilities, and discretionary spending.", "The model learns from edits and keeps an audit log."] },
+    { id: "ft2", title: "Portfolio Optimizer Supports Tax‑Loss Harvesting", description: "Reduce tax drag with intelligent lot selection.", tag: "Policy", imageSrc: img("photo-1517245386807-bb43f82c33c4"), href: "#", publishedAt: nowIso(), content: ["Harvest losses automatically during rebalances while avoiding wash sales.", "Export detailed schedules for your filings."] },
+    { id: "ft3", title: "New ETF Research Pack Released", description: "Sector heatmaps and factor tilts for top ETFs.", tag: "Research", imageSrc: img("photo-1559526324-593bc073d938"), href: "#", publishedAt: nowIso(), content: ["Compare factor exposures side‑by‑side and download reports.", "Includes liquidity screens and historical performance."] },
+    { id: "ft4", title: "Open Banking Connections Expanded", description: "Support for 14 new institutions across regions.", tag: "Announcement", imageSrc: img("photo-1454165804606-c3d57bc86b40"), href: "#", publishedAt: nowIso() },
+    { id: "ft5", title: "Risk Alerts – Options Greeks Coverage", description: "VaR and delta exposure added for derivatives.", tag: "Teaching", imageSrc: img("photo-1526304640581-d334cdbbf45e"), href: "#", publishedAt: nowIso() },
+    { id: "ft6", title: "Card Dispute Resolution Enhancements", description: "Faster workflows and automated evidence packs.", tag: "Event", imageSrc: img("photo-1518544801976-3e159e50e5bb"), href: "#", publishedAt: nowIso() },
+    { id: "ft7", title: "Payments Reliability Update", description: "99.98% uptime in the last 30 days.", tag: "Announcement", imageSrc: img("photo-1523287562758-66c7fc58967f"), href: "#", publishedAt: nowIso() },
+    { id: "ft8", title: "AML Model Tuning Guide", description: "How to calibrate thresholds for fewer false positives.", tag: "Teaching", imageSrc: img("photo-1542744173-8e7e53415bb0"), href: "#", publishedAt: nowIso() },
+    { id: "ft9", title: "New Dashboard for Recurring Bills", description: "Central view of subscriptions and upcoming debits.", tag: "Announcement", imageSrc: img("photo-1518779578993-ec3579fee39f"), href: "#", publishedAt: nowIso() },
+    { id: "ft10", title: "Treasury Curve Snapshot", description: "Macro context for duration risk decisions.", tag: "Research", imageSrc: img("photo-1554224155-1696413565d3"), href: "#", publishedAt: nowIso() },
+  ],
+  "insurance-dashboard": [
+    { id: "in1", title: "Claim AI Triage Improves Severity Prediction", description: "Higher precision on high‑risk auto claims.", tag: "Research", imageSrc: img("photo-1542744173-8e7e53415bb0"), href: "#", publishedAt: nowIso(), content: ["Severity scoring retrained on recent cases improves prioritization.", "Adjusters receive reason codes with evidence links."] },
+    { id: "in2", title: "Underwriting Rules Update – Property", description: "Wind and flood models refreshed for coastal ZIPs.", tag: "Policy", imageSrc: img("photo-1501183638710-841dd1904471"), href: "#", publishedAt: nowIso() },
+    { id: "in3", title: "Self‑Service Portal Adds Bulk Document Upload", description: "Faster claimant onboarding with OCR.", tag: "Announcement", imageSrc: img("photo-1581090700227-1e37b190418e"), href: "#", publishedAt: nowIso() },
+    { id: "in4", title: "Fraud Signals Library Expanded", description: "New graph features from recent cases.", tag: "Research", imageSrc: img("photo-1520607162513-77705c0f0d4a"), href: "#", publishedAt: nowIso() },
+    { id: "in5", title: "Smart Evidence Pack Builder Launch", description: "Auto‑compile reports, photos, and estimates into dispute‑ready PDFs.", tag: "Announcement", imageSrc: img("photo-1587829741301-dc798b83add3"), href: "#", publishedAt: nowIso(), content: ["Adjusters can now generate standardized evidence packets in one click.", "The builder pulls police reports, repair estimates, call transcripts, and scene photos from linked systems, then arranges them under carrier‑approved sections with timestamps and source attribution."] },
+    { id: "in6", title: "Catastrophe Exposure Snapshot", description: "Real‑time view of policies in event footprint.", tag: "Announcement", imageSrc: img("photo-1509395176047-4a66953fd231"), href: "#", publishedAt: nowIso() },
+    { id: "in7", title: "Pricing Playbook Refresh", description: "Rate adequacy metrics added to reports.", tag: "Policy", imageSrc: img("photo-1486312338219-ce68d2c6f44d"), href: "#", publishedAt: nowIso() },
+    { id: "in8", title: "Health Claims – Prior Auth Streamlined", description: "Reduced turnaround with clinical summaries.", tag: "Announcement", imageSrc: img("photo-1582719478250-c89cae4dc85b"), href: "#", publishedAt: nowIso() },
+    { id: "in9", title: "Broker Performance Scorecards", description: "Conversion, loss ratio, and retention insights.", tag: "Research", imageSrc: img("photo-1553877522-43269d4ea984"), href: "#", publishedAt: nowIso() },
+    { id: "in10", title: "Compliance: FNOL Data Quality Tips", description: "Common gaps and best practices for field teams.", tag: "Teaching", imageSrc: img("photo-1454165804606-c3d57bc86b40"), href: "#", publishedAt: nowIso() },
+  ],
+  "healthcare-dashboard": [
+    { id: "hc1", title: "AI Scribe Pilot Expands", description: "Lower clinician burden with accurate notes.", tag: "Announcement", imageSrc: img("photo-1486312338219-ce68d2c6f44d"), href: "#", publishedAt: nowIso(), content: ["Scribes summarize visits and add ICD hints for review.", "Clinicians retain full control over final notes."] },
+    { id: "hc2", title: "Prior Auth Automation Metrics", description: "Approval time down 28% month‑over‑month.", tag: "Research", imageSrc: img("photo-1524499982521-1ffd58dd89ea"), href: "#", publishedAt: nowIso() },
+    { id: "hc3", title: "AI Pathology Auto‑Flagging Pilot", description: "Automated slide triage highlights likely abnormal findings to speed review.", tag: "Research", imageSrc: img("photo-1582719478250-c89cae4dc85b"), href: "#", publishedAt: nowIso(), content: ["The pilot prioritizes suspicious fields on hematology and cytology slides to shorten turnaround time.", "Pathologists retain full control over final reads and can view model rationales."] },
+    { id: "hc4", title: "Patient Messaging Best Practices", description: "Templates for clearer, empathetic communication.", tag: "Teaching", imageSrc: img("photo-1499155286265-79a9dc9c6380"), href: "#", publishedAt: nowIso() },
+    { id: "hc5", title: "Scheduling Optimizer Gains No‑Show Model", description: "Reduce gaps with smart overbooking.", tag: "Research", imageSrc: img("photo-1512917774080-9991f1c4c750"), href: "#", publishedAt: nowIso() },
+    { id: "hc6", title: "Home Cardiac Monitoring Program Expansion", description: "Scaling RPM for cardiac patients with AI‑assisted alerting and nurse triage.", tag: "Announcement", imageSrc: img("photo-1587829741301-dc798b83add3"), href: "#", publishedAt: nowIso(), content: ["The program adds continuous heart‑rate and rhythm monitoring with clinician‑reviewed alerts.", "Early escalation pathways aim to reduce readmissions while keeping primary teams in the loop."] },
+    { id: "hc7", title: "New EHR Integrations Certified", description: "Faster chart retrieval for care teams.", tag: "Policy", imageSrc: img("photo-1550831107-1553da8c8464"), href: "#", publishedAt: nowIso() },
+    { id: "hc8", title: "Patient Education Library Grows", description: "Infographics and explainers for common conditions.", tag: "Teaching", imageSrc: img("photo-1586773860418-d37222d8fce3"), href: "#", publishedAt: nowIso() },
+    { id: "hc9", title: "Quality Measures Dashboard", description: "Real‑time HEDIS tracking for clinics.", tag: "Announcement", imageSrc: img("photo-1519494080410-f9aa76cb4283"), href: "#", publishedAt: nowIso() },
+    { id: "hc10", title: "Data Governance Roundtable", description: "Join peers to discuss PHI safeguards.", tag: "Event", imageSrc: img("photo-1542744173-8e7e53415bb0"), href: "#", publishedAt: nowIso() },
+  ],
+  "retail-dashboard": [
+    { id: "rt1", title: "Store Insights Agent Adds Shrink Alerts", description: "Detect anomaly patterns in inventory.", tag: "Announcement", imageSrc: img("photo-1542838132-92c53300491e"), href: "#", publishedAt: nowIso() },
+    { id: "rt2", title: "Promotion Engine – A/B Test Templates", description: "Faster experiments with guardrails.", tag: "Teaching", imageSrc: img("photo-1522199710521-72d69614c702"), href: "#", publishedAt: nowIso() },
+    { id: "rt3", title: "Supply Chain ETA Tracker", description: "Live inbound shipment status in one view.", tag: "Announcement", imageSrc: img("photo-1515168833906-d2a3b82b302a"), href: "#", publishedAt: nowIso() },
+    { id: "rt4", title: "New Vision Model for On‑Shelf Availability", description: "Higher accuracy on low‑light aisles.", tag: "Research", imageSrc: img("photo-1517245386807-bb43f82c33c4"), href: "#", publishedAt: nowIso() },
+    { id: "rt5", title: "Customer Care Playbooks", description: "Scripts for returns, refunds, and appeasements.", tag: "Teaching", imageSrc: img("photo-1489987707025-afc232f7ea0f"), href: "#", publishedAt: nowIso() },
+    { id: "rt6", title: "Marketplace Expansion", description: "List catalog on two new channels.", tag: "Announcement", imageSrc: img("photo-1544947950-fa07a98d237f"), href: "#", publishedAt: nowIso() },
+    { id: "rt7", title: "New Dashboards: Basket Size & Attach Rate", description: "Deeper understanding of cross‑sell.", tag: "Research", imageSrc: img("photo-1503602642458-232111445657"), href: "#", publishedAt: nowIso() },
+    { id: "rt8", title: "Payment Methods – Wallet Growth", description: "Digital wallets pass 40% of total online orders.", tag: "Announcement", imageSrc: img("photo-1523275335684-37898b6baf30"), href: "#", publishedAt: nowIso() },
+    { id: "rt9", title: "Visual Merchandising Guidelines", description: "Layout refresh for seasonal sets.", tag: "Policy", imageSrc: img("photo-1512436991641-6745cdb1723f"), href: "#", publishedAt: nowIso() },
+    { id: "rt10", title: "Loyalty Program Tier Update", description: "New perks for Gold and Platinum shoppers.", tag: "Announcement", imageSrc: img("photo-1483982258113-b72862e6cff6"), href: "#", publishedAt: nowIso() },
+  ],
+  "hospitality-dashboard": [
+    { id: "hp1", title: "Front Desk Agent Adds VIP Profiles", description: "Instant context for returning guests.", tag: "Announcement", imageSrc: img("photo-1519710164239-da123dc03ef4"), href: "#", publishedAt: nowIso() },
+    { id: "hp2", title: "Housekeeping Route Optimizer", description: "Faster turns with dynamic assignments.", tag: "Research", imageSrc: img("photo-1517685352821-92cf88aee5a5"), href: "#", publishedAt: nowIso() },
+    { id: "hp3", title: "New Partner Integrations for OTA Bookings", description: "Better parity and channel mix.", tag: "Announcement", imageSrc: img("photo-1499951360447-b19be8fe80f5"), href: "#", publishedAt: nowIso() },
+    { id: "hp4", title: "Service Recovery Guidelines", description: "Playbooks for delighting unhappy guests.", tag: "Teaching", imageSrc: img("photo-1517248135467-4c7edcad34c4"), href: "#", publishedAt: nowIso() },
+    { id: "hp5", title: "Sustainability Metrics Dashboard", description: "Track water and energy per occupied room.", tag: "Research", imageSrc: img("photo-1495546968767-f0573cca821e"), href: "#", publishedAt: nowIso() },
+    { id: "hp6", title: "New Concierge Partnerships", description: "Local tours and dining benefits for guests.", tag: "Announcement", imageSrc: img("photo-1496412705862-e0088f16f791"), href: "#", publishedAt: nowIso() },
+    { id: "hp7", title: "Event Bookings Spike – Staffing Tips", description: "Plan scheduling for peak weeks.", tag: "Teaching", imageSrc: img("photo-1500530855697-b586d89ba3ee"), href: "#", publishedAt: nowIso() },
+    { id: "hp8", title: "Maintenance Insights – Predictive Alerts", description: "Catch issues before they impact stays.", tag: "Research", imageSrc: img("photo-1518770660439-4636190af475"), href: "#", publishedAt: nowIso() },
+    { id: "hp9", title: "Guest Messaging Templates", description: "Faster responses with curated replies.", tag: "Teaching", imageSrc: img("photo-1499155286265-79a9dc9c6380"), href: "#", publishedAt: nowIso() },
+    { id: "hp10", title: "Revenue Management Tip: Shoulder Nights", description: "Improve occupancy with targeted offers.", tag: "Policy", imageSrc: img("photo-1512917774080-9991f1c4c750"), href: "#", publishedAt: nowIso() },
+  ],
+};
+
+

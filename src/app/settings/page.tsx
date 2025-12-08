@@ -4,15 +4,12 @@ import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { useEffect, useState } from "react";
 import { useDensity } from "@/components/prefs/DensityProvider";
-import { useRole } from "@/components/role/RoleProvider";
 
 export default function SettingsPage() {
   const { density, setDensity } = useDensity();
   const [theme, setTheme] = useState<"light" | "dark">("light");
-  const [name, setName] = useState("Alex Rivera");
-  const [email, setEmail] = useState("student@example.edu");
-  const { role } = useRole();
-  const major = role === "student" ? "Computer Science" : role === "teacher" ? "Faculty" : "Operations";
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
 
   useEffect(() => {
     const root = document.documentElement;
@@ -34,28 +31,12 @@ export default function SettingsPage() {
             </div>
             <label className="block md:col-span-1">
               <div className="mb-1 text-neutral-dark/70">Name</div>
-              <input value={name} onChange={(e) => setName(e.target.value)} className="w-full rounded-md border border-line/60 p-2" />
+              <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter your name" className="w-full rounded-md border border-line/60 p-2" />
             </label>
             <label className="block">
               <div className="mb-1 text-neutral-dark/70">Email</div>
-              <input value={email} onChange={(e) => setEmail(e.target.value)} className="w-full rounded-md border border-line/60 p-2" />
+              <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email" className="w-full rounded-md border border-line/60 p-2" />
             </label>
-          </div>
-          <div className="mt-3 flex justify-end">
-            <Button>Save</Button>
-          </div>
-        </Card>
-        <Card>
-          <CardTitle>Role / Major</CardTitle>
-          <div className="mt-3 grid gap-3 md:grid-cols-2 text-sm">
-            <div>
-              <div className="mb-1 text-neutral-dark/70">Role</div>
-              <div className="rounded-md border border-line/60 bg-neutral-light/40 p-2">{role.charAt(0).toUpperCase() + role.slice(1)}</div>
-            </div>
-            <div>
-              <div className="mb-1 text-neutral-dark/70">{role === "student" ? "Major" : "Department"}</div>
-              <div className="rounded-md border border-line/60 bg-neutral-light/40 p-2">{major}</div>
-            </div>
           </div>
           <div className="mt-3 flex justify-end">
             <Button>Save</Button>

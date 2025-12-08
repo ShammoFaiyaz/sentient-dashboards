@@ -3,11 +3,10 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Card, CardTitle } from "@/components/ui/Card";
-import { useRole } from "@/components/role/RoleProvider";
+
 
 export default function NotFound() {
-  const { role } = useRole();
-  const homeHref = role ? `/${role}` : "/";
+  const homeHref = "/insurance-dashboard";
 
   return (
     <div className="mx-auto flex min-h-[60vh] max-w-3xl items-center justify-center p-6">

@@ -197,15 +197,16 @@ export default function NewsCarousel() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="relative aspect-[16/9] w-full">
-              <Image src={openItem.imageSrc} alt={openItem.title} fill className="object-cover" unoptimized />
+              <Image src={openItem!.imageSrc} alt={openItem!.title} fill className="object-cover" unoptimized />
             </div>
             <div className="p-5 md:p-6">
               {(() => {
+                const oi = openItem as NewsItem;
                 // Pad content to at least 300 words for a richer modal article
                 function ensureMinWords(paras: string[], minWords: number): string[] {
                   const out = [...paras];
                   const mk = (i: number) =>
-                    `This update, “${openItem.title}”, provides additional context and guidance for users across this dashboard. ` +
+                    `This update, “${oi.title}”, provides additional context and guidance for users across this dashboard. ` +
                     `It explains why the change matters, how to take advantage of it immediately, and where to find supporting resources. ` +
                     `We emphasize practical next steps, guardrails, and the value this improvement brings to day‑to‑day workflows. ` +
                     `Paragraph ${i + 1} includes more examples and tips so that teams can act confidently.`;
@@ -227,17 +228,17 @@ export default function NewsCarousel() {
                   }
                   return out;
                 }
-                const core = openItem.content && openItem.content.length > 0 ? openItem.content : [openItem.description];
+                const core = oi.content && oi.content.length > 0 ? oi.content : [oi.description];
                 const padded = ensureMinWords(core, 300);
                 const readingMins = Math.max(1, Math.ceil(padded.join(" ").split(/\s+/).filter(Boolean).length / 200));
                 return (
                   <>
                     <div className="mb-2 flex flex-wrap items-center gap-3">
                       <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
-                        {openItem.tag}
+                        {oi.tag}
                       </span>
-                      {openItem.author && (
-                        <span className="text-xs text-neutral-600 dark:text-neutral-300">{openItem.author}</span>
+                      {oi.author && (
+                        <span className="text-xs text-neutral-600 dark:text-neutral-300">{oi.author}</span>
                       )}
                       <span className="text-xs text-neutral-500" suppressHydrationWarning>
                         {new Intl.DateTimeFormat("en-US", {
@@ -248,14 +249,14 @@ export default function NewsCarousel() {
                           minute: "2-digit",
                           hour12: true,
                           timeZone: "UTC",
-                        }).format(new Date(openItem.publishedAt))}
+                        }).format(new Date(oi.publishedAt))}
                       </span>
                       <span className="text-xs text-neutral-500">{readingMins} min read</span>
                     </div>
-                    <h3 className="text-2xl font-medium text-primary">{openItem.title}</h3>
+                    <h3 className="text-2xl font-medium text-primary">{oi.title}</h3>
                     {/* Author section under the title (requested) */}
                     <div className="mt-1 text-xs text-neutral-600 dark:text-neutral-300">
-                      By {openItem.author ?? "Editorial Team"}
+                      By {oi.author ?? "Editorial Team"}
                     </div>
                     <div className="prose mt-3 max-w-none text-neutral-700 prose-p:my-3 dark:text-neutral-300">
                       {padded.map((p, i) => (

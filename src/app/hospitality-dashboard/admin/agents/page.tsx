@@ -1,6 +1,6 @@
 "use client";
 
-import AdminAgents from "@/app/admin/agents/page";
+import AdminAgents from "@/components/admin/AdminAgents";
 
 export default function HospitalityAdminAgents() {
   return <AdminAgents />;

@@ -134,8 +134,8 @@ export default function HospitalityLoyaltyRewardsPage() {
   );
 }
 
-// Extra detailed sections (6)
-export function LoyaltyRewardsExtraSections() {
+// Extra detailed sections (6) – kept local to this page (not exported)
+function LoyaltyRewardsExtraSections() {
   return (
     <div className="mt-6 grid gap-4 md:grid-cols-3">
       <div className="rounded-2xl border border-line/60 bg-white p-4 shadow-elevation-sm">

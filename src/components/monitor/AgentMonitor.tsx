@@ -214,7 +214,7 @@ function ChartPlaceholder({ kind }: { kind: "area" | "donut" | "bars" | "pie" | 
     );
   } else if (kind === "line") {
     body = (
-      <svg {...common}>
+      <svg {...common} style={{ width: "100%", display: "block", margin: "0 auto" }}>
         <Grid />
         <g stroke="#cbd5e1" strokeWidth="1">
           <line x1="30" y1="10" x2="30" y2="180" />
@@ -241,28 +241,33 @@ function ChartPlaceholder({ kind }: { kind: "area" | "donut" | "bars" | "pie" | 
     );
   } else if (kind === "bars") {
     body = (
-      <svg {...common}>
+      <svg {...common} style={{ width: "100%", display: "block", margin: "0 auto" }}>
         <Grid />
-        {/** Pull bars and x-axis labels upward to reduce bottom padding */}
-        {([
+        {/*
+          Raise the baseline so bars and x‑axis labels sit higher
+          (reduces bottom whitespace and improves visual alignment)
+        */}
+        {(() => {
+          const baseY = 176; // nudge bars and labels further higher
+          return ([
           { x: 20, h: 60, label: "Concierge", v: 62 },
           { x: 100, h: 110, label: "Admissions", v: 118 },
           { x: 180, h: 85, label: "Scheduler", v: 90 },
           { x: 260, h: 140, label: "DocBot", v: 145 },
           { x: 340, h: 120, label: "Helpdesk", v: 126 },
         ] as const).map((b, i) => (
-          <g key={i}>
-            {/** Adjusted baseline further up from 188 to 176 */}
-            <rect x={b.x} y={160 - b.h} width="30" height={b.h} fill="#8B5CF6" rx="4" />
-            <text x={b.x + 15} y={165 - b.h - 16} textAnchor="middle" fontSize="12" fill="#64748b">
-              {b.v}
-            </text>
-            {/* Move category labels up closer to the chart */}
-            <text x={b.x + 15} y={184} textAnchor="middle" fontSize="12" fill="#64748b">
-              {b.label}
-            </text>
-          </g>
-        ))}
+            <g key={i}>
+              <rect x={b.x} y={baseY - b.h} width="30" height={b.h} fill="#8B5CF6" rx="4" />
+              <text x={b.x + 15} y={baseY - b.h - 16} textAnchor="middle" fontSize="12" fill="#64748b">
+                {b.v}
+              </text>
+              {/* x-axis labels lowered slightly for spacing */}
+              <text x={b.x + 15} y={baseY + 12} textAnchor="middle" fontSize="12" fill="#64748b">
+                {b.label}
+              </text>
+            </g>
+          ));
+        })()}
       </svg>
     );
   } else if (kind === "donut") {
@@ -272,7 +277,7 @@ function ChartPlaceholder({ kind }: { kind: "area" | "donut" | "bars" | "pie" | 
       r = 70,
       t = 18;
     body = (
-      <svg {...common}>
+      <svg {...common} style={{ width: "100%", display: "block", margin: "0 auto" }}>
         <g transform={`translate(${200},0)`}>
           <circle cx={cx} cy={cy} r={r} fill="none" stroke="#e5e7eb" strokeWidth={t} />
           {/* segments using strokeDasharray */}
@@ -333,7 +338,7 @@ function ChartPlaceholder({ kind }: { kind: "area" | "donut" | "bars" | "pie" | 
       return <path d={`M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${large} 1 ${x2},${y2} Z`} fill={color} />;
     };
     body = (
-      <svg {...common}>
+      <svg {...common} style={{ width: "100%", display: "block", margin: "0 auto" }}>
         <g>
           {arc(0, 120, "#93C5FD")}
           {arc(120, 240, "#A7F3D0")}
@@ -354,9 +359,7 @@ function ChartPlaceholder({ kind }: { kind: "area" | "donut" | "bars" | "pie" | 
 
   return (
     <div className="mt-3">
-      <div className="w-full overflow-x-auto">
-        {body}
-      </div>
+      {body}
     </div>
   );
 }

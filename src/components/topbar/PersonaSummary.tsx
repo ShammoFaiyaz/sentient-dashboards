@@ -92,7 +92,7 @@ export default function PersonaSummary() {
     if (!name) return "user@example.com";
     const parts = name.split(/\s+/).filter(Boolean);
     const local = parts.length >= 2 ? `${parts[0]}.${parts[parts.length - 1]}` : parts[0];
-    return `${local}@email.com`;
+    return `${local}@inova.com`;
   }, [persona?.name]);
 
   const initials = React.useMemo(() => {

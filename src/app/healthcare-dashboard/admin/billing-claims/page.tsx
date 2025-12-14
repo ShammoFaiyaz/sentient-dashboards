@@ -4,15 +4,16 @@ import * as React from "react";
 import { AgentTile } from "@/components/AgentTile";
 import { useAgents } from "@/context/AgentsProvider";
 import { NICHES } from "@/niches/config";
-import { usePathname } from "next/navigation";
+import { agentsForNicheAndRole } from "@/components/niche/roleMap";
 
 type Claim = { id: string; patient: string; amount: string; status: string; date: string };
 
 export default function HealthcareBillingClaims() {
   const { agents } = useAgents();
-  const pathname = usePathname() || "";
   const config = NICHES["healthcare-dashboard"];
-  const featured = agents.filter((a) => config.agentIds.includes(a.id) && (pathname.includes("/healthcare-dashboard/admin/") ? a.role === "admin" : true)).slice(0, 3);
+  const featured = agentsForNicheAndRole("healthcare-dashboard", agents, {
+    suRole: "admin",
+  }).slice(0, 3);
   const [editOpen, setEditOpen] = React.useState(false);
   const [selected, setSelected] = React.useState<Claim | null>(null);
   const rows: Claim[] = [

@@ -5,7 +5,7 @@ import { AgentTile } from "@/components/AgentTile";
 import { useAgents } from "@/context/AgentsProvider";
 import { NICHES } from "@/niches/config";
 import { useNicheRole } from "@/components/niche/useNicheRole";
-import { nicheRoleToSuRole } from "@/components/niche/roleMap";
+import { agentsForNicheAndRole, nicheRoleToSuRole } from "@/components/niche/roleMap";
 import { usePathname } from "next/navigation";
 
 export default function AppointmentsPage() {
@@ -15,8 +15,9 @@ export default function AppointmentsPage() {
   const pathname = usePathname() || "";
   const suRole = nicheRoleToSuRole("healthcare-dashboard", roleLabel);
   const effectiveRole = pathname.includes("/healthcare-dashboard/admin/") ? "admin" : suRole;
-  const base = agents.filter((a) => config.agentIds.includes(a.id) && a.role === effectiveRole);
-  const featured = (base.length >= 3 ? base : [...base, ...agents.filter((a) => config.agentIds.includes(a.id) && a.role !== effectiveRole)]).slice(0, 3);
+  const featured = agentsForNicheAndRole("healthcare-dashboard", agents, {
+    suRole: effectiveRole,
+  }).slice(0, 3);
   const [role, setRole] = React.useState<"Doctor" | "Patient">("Doctor");
   const [symptoms, setSymptoms] = React.useState("");
   const [preference, setPreference] = React.useState<"Any" | "Today" | "This Week" | "Next Week">("Any");

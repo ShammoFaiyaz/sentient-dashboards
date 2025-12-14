@@ -6,6 +6,7 @@ import { useAgents } from "@/context/AgentsProvider";
 import { NICHES } from "@/niches/config";
 import { useRole } from "@/components/role/RoleProvider";
 import { usePathname } from "next/navigation";
+import { agentsForNicheAndRole } from "@/components/niche/roleMap";
 
 export default function PortfolioTransactionsPage() {
   const { agents } = useAgents();
@@ -13,11 +14,9 @@ export default function PortfolioTransactionsPage() {
   const pathname = usePathname() || "";
   const config = NICHES["fintech-dashboard"];
   const effectiveRole = pathname.includes("/fintech-dashboard/admin/") ? "admin" : role;
-  const featuredBase = agents.filter((a) => config.agentIds.includes(a.id) && a.role === effectiveRole);
-  const featured =
-    featuredBase.length >= 3
-      ? featuredBase.slice(0, 3)
-      : [...featuredBase, ...agents.filter((a) => config.agentIds.includes(a.id) && a.role !== effectiveRole)].slice(0, 3);
+  const featured = agentsForNicheAndRole("fintech-dashboard", agents, {
+    suRole: effectiveRole,
+  }).slice(0, 3);
 
   return (
     <div className="mx-auto max-w-7xl px-2 py-6">

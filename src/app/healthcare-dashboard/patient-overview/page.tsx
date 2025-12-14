@@ -5,7 +5,7 @@ import { AgentTile } from "@/components/AgentTile";
 import { useAgents } from "@/context/AgentsProvider";
 import { NICHES } from "@/niches/config";
 import { useNicheRole } from "@/components/niche/useNicheRole";
-import { nicheRoleToSuRole } from "@/components/niche/roleMap";
+import { agentsForNicheAndRole, nicheRoleToSuRole } from "@/components/niche/roleMap";
 import { usePathname } from "next/navigation";
 
 export default function PatientOverviewPage() {
@@ -15,8 +15,9 @@ export default function PatientOverviewPage() {
   const pathname = usePathname() || "";
   const suRole = nicheRoleToSuRole("healthcare-dashboard", roleLabel);
   const effectiveRole = pathname.includes("/healthcare-dashboard/admin/") ? "admin" : suRole;
-  const base = agents.filter((a) => config.agentIds.includes(a.id) && a.role === effectiveRole);
-  const featured = (base.length >= 3 ? base : [...base, ...agents.filter((a) => config.agentIds.includes(a.id) && a.role !== effectiveRole)]).slice(0, 3);
+  const featured = agentsForNicheAndRole("healthcare-dashboard", agents, {
+    suRole: effectiveRole,
+  }).slice(0, 3);
   const [patients, setPatients] = React.useState<[string,string,string,string,string][]>([
     ["Patel, R", "Follow‑up", "09:00", "Checked‑in", "3A"],
     ["Lee, S", "Telehealth", "09:30", "Waiting", "—"],

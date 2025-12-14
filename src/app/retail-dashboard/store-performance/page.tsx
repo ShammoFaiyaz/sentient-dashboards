@@ -4,11 +4,16 @@ import * as React from "react";
 import { AgentTile } from "@/components/AgentTile";
 import { useAgents } from "@/context/AgentsProvider";
 import { NICHES } from "@/niches/config";
+import { useNicheRole } from "@/components/niche/useNicheRole";
+import { agentsForNicheAndRole } from "@/components/niche/roleMap";
 
 export default function StorePerformancePage() {
   const { agents } = useAgents();
   const config = NICHES["retail-dashboard"];
-  const featured = agents.filter((a) => config.agentIds.includes(a.id)).slice(0, 3);
+  const role = useNicheRole("retail-dashboard", "Store Manager");
+  const featured = agentsForNicheAndRole("retail-dashboard", agents, {
+    roleLabel: role,
+  }).slice(0, 3);
 
   return (
     <div className="mx-auto max-w-7xl px-2 py-6">

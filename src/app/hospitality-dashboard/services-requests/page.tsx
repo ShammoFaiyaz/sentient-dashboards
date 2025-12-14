@@ -4,6 +4,8 @@ import * as React from "react";
 import { AgentTile } from "@/components/AgentTile";
 import { useAgents } from "@/context/AgentsProvider";
 import { NICHES } from "@/niches/config";
+import { useNicheRole } from "@/components/niche/useNicheRole";
+import { agentsForNicheAndRole } from "@/components/niche/roleMap";
 
 function Kpi({ label, value, hint, colorHex }: { label: string; value: string; hint: string; colorHex: string }) {
   return (
@@ -32,7 +34,10 @@ function Kpi({ label, value, hint, colorHex }: { label: string; value: string; h
 export default function HospitalityServicesRequestsPage() {
   const { agents } = useAgents();
   const config = NICHES["hospitality-dashboard"];
-  const featured = agents.filter((a) => config.agentIds.includes(a.id)).slice(0, 3);
+  const role = useNicheRole("hospitality-dashboard", "Guest");
+  const featured = agentsForNicheAndRole("hospitality-dashboard", agents, {
+    roleLabel: role,
+  }).slice(0, 3);
 
   return (
     <div className="mx-auto max-w-7xl px-2 py-6">

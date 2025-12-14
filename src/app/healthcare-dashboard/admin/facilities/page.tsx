@@ -4,13 +4,16 @@ import * as React from "react";
 import { AgentTile } from "@/components/AgentTile";
 import { useAgents } from "@/context/AgentsProvider";
 import { NICHES } from "@/niches/config";
+import { agentsForNicheAndRole } from "@/components/niche/roleMap";
 
 type Facility = { name: string; type: string; status: string; capacity: string; alerts: string };
 
 export default function HealthcareFacilities() {
   const { agents } = useAgents();
   const config = NICHES["healthcare-dashboard"];
-  const featured = agents.filter((a) => config.agentIds.includes(a.id)).slice(0, 3);
+  const featured = agentsForNicheAndRole("healthcare-dashboard", agents, {
+    suRole: "admin",
+  }).slice(0, 3);
   const [editOpen, setEditOpen] = React.useState(false);
   const [selected, setSelected] = React.useState<Facility | null>(null);
   const rows: Facility[] = [

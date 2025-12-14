@@ -3,12 +3,16 @@
 import { AgentTile } from "@/components/AgentTile";
 import { useAgents } from "@/context/AgentsProvider";
 import { NICHES } from "@/niches/config";
+import { agentsForNicheAndRole } from "@/components/niche/roleMap";
+import { useNicheRole } from "@/components/niche/useNicheRole";
 import * as React from "react";
 
 export default function HealthcareAgents() {
   const config = NICHES["healthcare-dashboard"];
   const { agents, setOnline, setAllOffline } = useAgents();
   const [filter, setFilter] = React.useState<"all" | "online" | "offline">("all");
+  const roleLabel = useNicheRole(config.slug, config.roles[0]);
+  const filtered = agentsForNicheAndRole(config.slug, agents, { roleLabel });
 
   React.useEffect(() => {
     const hasSaved = typeof window !== "undefined" && !!window.localStorage.getItem(config.storageKey);
@@ -18,8 +22,6 @@ export default function HealthcareAgents() {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const filtered = agents.filter((a) => config.agentIds.includes(a.id));
   const filteredByStatus = filtered.filter((a) => (filter === "all" ? true : filter === "online" ? a.online : !a.online));
   return (
     <div className="mx-auto max-w-7xl px-2 py-6">

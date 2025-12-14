@@ -3,27 +3,20 @@
 import { AgentTile } from "@/components/AgentTile";
 import { useAgents } from "@/context/AgentsProvider";
 import { NICHES } from "@/niches/config";
+import { agentsForNicheAndRole } from "@/components/niche/roleMap";
+import { useNicheRole } from "@/components/niche/useNicheRole";
 import * as React from "react";
 
 export default function InsuranceAgents() {
-  const config = NICHES["insurance-dashboard"];
-  const { agents } = useAgents();
-
-  // First-time initialization: set relevant baseline online if no saved state exists yet
-  // (Do not override if a saved state is present)
-  if (typeof window !== "undefined" && !window.localStorage.getItem(config.storageKey)) {
-    // we cannot call hooks conditionally; use effect below
-  }
-
-  return (
-    <AgentsList niche="insurance-dashboard" />
-  );
+  return <AgentsList niche="insurance-dashboard" />;
 }
 
 function AgentsList({ niche }: { niche: keyof typeof NICHES }) {
   const config = NICHES[niche];
   const { agents, setOnline, setAllOffline } = useAgents();
   const [filter, setFilter] = React.useState<"all" | "online" | "offline">("all");
+  const roleLabel = useNicheRole(config.slug, config.roles[0]);
+  const roleScopedAgents = agentsForNicheAndRole(config.slug, agents, { roleLabel });
 
   // one-time init
   React.useEffect(() => {
@@ -36,7 +29,7 @@ function AgentsList({ niche }: { niche: keyof typeof NICHES }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const filtered = agents.filter((a) => config.agentIds.includes(a.id));
+  const filtered = roleScopedAgents;
   const filteredByStatus = filtered.filter((a) => (filter === "all" ? true : filter === "online" ? a.online : !a.online));
   return (
     <div className="mx-auto max-w-7xl px-2 py-6">

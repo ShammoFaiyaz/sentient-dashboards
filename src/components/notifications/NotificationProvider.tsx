@@ -36,6 +36,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
   const hcRole = useNicheRole("healthcare-dashboard", "Doctor");
   const hospRole = useNicheRole("hospitality-dashboard", "Guest");
   const retailRole = useNicheRole("retail-dashboard", "Store Manager");
+  const logRole = useNicheRole("logistics-dashboard", "Operations Manager");
 
   // Role-aware demo notifications
   React.useEffect(() => {
@@ -164,8 +165,36 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       }
       return;
     }
+
+    // Logistics
+    if (pathname?.startsWith("/logistics-dashboard")) {
+      if (logRole === "Operations Manager") {
+        setNotifications([
+          { id: "l1", title: "Control tower flagged 5 at-risk routes today", time: "6m ago", unread: true },
+          { id: "l2", title: "Service dip on West Coast lane — review shipments board", time: "21m ago", unread: true },
+        ]);
+      } else if (logRole === "Warehouse Supervisor") {
+        setNotifications([
+          { id: "l3", title: "Inbound wave arriving early at Phoenix DC", time: "9m ago", unread: true },
+          { id: "l4", title: "Two aisles above 95% utilization — consider re-slotting", time: "47m ago", unread: true },
+        ]);
+      } else if (logRole === "Distributions Operator") {
+        setNotifications([
+          { id: "l5", title: "New high-priority stop added to afternoon route", time: "12m ago", unread: true },
+          { id: "l6", title: "2 deliveries require photo proof at drop-off", time: "1h ago", unread: false },
+        ]);
+      } else if (logRole === "Admin") {
+        setNotifications([
+          { id: "l7", title: "New agent deployed: Network Capacity Planner", time: "18m ago", unread: true },
+          { id: "l8", title: "Access review overdue for EU warehouse supervisors", time: "2h ago", unread: true },
+        ]);
+      } else {
+        setNotifications([{ id: "l9", title: "Logistics platform health: all services operational", time: "just now", unread: false }]);
+      }
+      return;
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname, role, insRole, finRole, hcRole, hospRole, retailRole]);
+  }, [pathname, role, insRole, finRole, hcRole, hospRole, retailRole, logRole]);
 
   const unreadCount = notifications.filter((n) => n.unread).length;
 

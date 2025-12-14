@@ -1,4 +1,10 @@
-export type NicheKey = "insurance-dashboard" | "healthcare-dashboard" | "fintech-dashboard" | "hospitality-dashboard" | "retail-dashboard";
+export type NicheKey =
+  | "insurance-dashboard"
+  | "healthcare-dashboard"
+  | "fintech-dashboard"
+  | "hospitality-dashboard"
+  | "retail-dashboard"
+  | "logistics-dashboard";
 
 export type NicheConfig = {
   slug: NicheKey;
@@ -311,6 +317,68 @@ export const NICHES: Record<NicheKey, NicheConfig> = {
         { label: "Agents", href: "/retail-dashboard/agents" },
         { label: "Agent Monitor", href: "/retail-dashboard/admin/monitor" },
         { label: "Agent Management", href: "/retail-dashboard/admin/agents" },
+      ],
+    },
+  },
+  "logistics-dashboard": {
+    slug: "logistics-dashboard",
+    title: "Logistics Dashboard",
+    roles: ["Operations Manager", "Warehouse Supervisor", "Distributions Operator", "Admin"],
+    storageKey: "su_agents_state__logistics-dashboard",
+    agentIds: [
+      "network-capacity-planner",
+      "fleet-route-optimizer",
+      "warehouse-slot-allocator",
+      "delivery-exception-copilot",
+      "last-mile-eta-predictor",
+      "dock-scheduling-assistant",
+      "safety-compliance-checker",
+      "carrier-performance-analyst",
+      "inventory-visibility-agent",
+      "logistics-cost-analyzer",
+    ],
+    baselineOnlineIds: [],
+    menu: [
+      { label: "Dashboard", href: "/logistics-dashboard" },
+      { label: "Network Overview", href: "/logistics-dashboard/network-overview" },
+      { label: "Fleet & Routes", href: "/logistics-dashboard/fleet" },
+      { label: "Warehouse Ops", href: "/logistics-dashboard/warehouse-ops" },
+      { label: "Agents", href: "/logistics-dashboard/agents" },
+    ],
+    menusByRole: {
+      Admin: [
+        { label: "Dashboard", href: "/logistics-dashboard" },
+        { label: "User Management", href: "/logistics-dashboard/admin/users" },
+        { label: "Network Oversight", href: "/logistics-dashboard/admin/network-oversight" },
+        { label: "Capacity & SLAs", href: "/logistics-dashboard/admin/capacity-slas" },
+        { label: "Compliance & Risk", href: "/logistics-dashboard/admin/compliance-reporting" },
+        { label: "Agents", href: "/logistics-dashboard/agents" },
+        { label: "Agent Monitor", href: "/logistics-dashboard/admin/monitor" },
+        { label: "Agent Management", href: "/logistics-dashboard/admin/agents" },
+      ],
+      "Operations Manager": [
+        { label: "Dashboard", href: "/logistics-dashboard" },
+        { label: "Control Tower", href: "/logistics-dashboard/operations/control-tower" },
+        { label: "Shipments & Orders", href: "/logistics-dashboard/operations/shipments" },
+        { label: "Routing & Modes", href: "/logistics-dashboard/operations/routing" },
+        { label: "Service Performance", href: "/logistics-dashboard/operations/service-performance" },
+        { label: "Agents", href: "/logistics-dashboard/agents" },
+      ],
+      "Warehouse Supervisor": [
+        { label: "Dashboard", href: "/logistics-dashboard" },
+        { label: "Inbound & Outbound", href: "/logistics-dashboard/warehouse/inbound-outbound" },
+        { label: "Storage & Slots", href: "/logistics-dashboard/warehouse/storage-slots" },
+        { label: "Labor & Shifts", href: "/logistics-dashboard/warehouse/labor-shifts" },
+        { label: "Safety & Compliance", href: "/logistics-dashboard/warehouse/safety" },
+        { label: "Agents", href: "/logistics-dashboard/agents" },
+      ],
+      "Distributions Operator": [
+        { label: "Dashboard", href: "/logistics-dashboard" },
+        { label: "My Routes", href: "/logistics-dashboard/operator/my-routes" },
+        { label: "Today's Deliveries", href: "/logistics-dashboard/operator/deliveries" },
+        { label: "Exceptions", href: "/logistics-dashboard/operator/exceptions" },
+        { label: "Performance & Earnings", href: "/logistics-dashboard/operator/performance" },
+        { label: "Agents", href: "/logistics-dashboard/agents" },
       ],
     },
   },

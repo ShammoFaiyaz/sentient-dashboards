@@ -4,11 +4,14 @@ import { Card, CardTitle } from "@/components/ui/Card";
 import { useAgents } from "@/context/AgentsProvider";
 import { NICHES } from "@/niches/config";
 import { AgentTile } from "@/components/AgentTile";
+import { useNicheRole } from "@/components/niche/useNicheRole";
+import { agentsForNicheAndRole } from "@/components/niche/roleMap";
 
 export default function OpenNewClaimPage() {
   const config = NICHES["insurance-dashboard"];
   const { agents } = useAgents();
-  const featured = agents.filter(a => config.agentIds.includes(a.id)).slice(0, 3);
+  const roleLabel = useNicheRole("insurance-dashboard", config.roles[0]);
+  const featured = agentsForNicheAndRole("insurance-dashboard", agents, { roleLabel }).slice(0, 3);
   return (
     <div className="mx-auto max-w-7xl px-2 py-6">
       <section className="mb-6">

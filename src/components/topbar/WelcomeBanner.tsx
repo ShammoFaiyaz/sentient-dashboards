@@ -49,6 +49,12 @@ export default function WelcomeBanner() {
           "Merchandiser": "Dana Lopez",
           "Admin": "Riley Morgan",
         },
+        "logistics-dashboard": {
+          "Operations Manager": "Ravi Desai",
+          "Warehouse Supervisor": "Elena Ortiz",
+          "Distributions Operator": "Malik Johnson",
+          "Admin": "Jordan Silva",
+        },
       };
       const name =
         (byNiche[nicheKey]?.[nicheRole] as string | undefined) ?? "Alex Rivera";

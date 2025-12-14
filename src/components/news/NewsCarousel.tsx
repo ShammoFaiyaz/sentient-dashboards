@@ -32,7 +32,16 @@ export default function NewsCarousel() {
     if (!pathname) return "";
     const first = pathname.split("/").filter(Boolean)[0] ?? "";
     // Only switch when inside a niche dashboard; fallback to SU news otherwise
-    return [ "insurance-dashboard", "healthcare-dashboard", "fintech-dashboard", "retail-dashboard", "hospitality-dashboard" ].includes(first) ? first : "";
+    return [
+      "insurance-dashboard",
+      "healthcare-dashboard",
+      "fintech-dashboard",
+      "retail-dashboard",
+      "hospitality-dashboard",
+      "logistics-dashboard",
+    ].includes(first)
+      ? first
+      : "";
   }, [pathname]);
 
   const source = React.useMemo(() => {

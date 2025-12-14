@@ -16,6 +16,7 @@ function useRoleAwareThreads() {
   const hcRole = useNicheRole("healthcare-dashboard", "Doctor");
   const hospRole = useNicheRole("hospitality-dashboard", "Guest");
   const retailRole = useNicheRole("retail-dashboard", "Store Manager");
+  const logRole = useNicheRole("logistics-dashboard", "Operations Manager");
   if (pathname?.startsWith("/insurance-dashboard")) {
     if (insRole === "Claims Adjuster") {
       return [
@@ -103,6 +104,77 @@ function useRoleAwareThreads() {
       ];
     } else {
       return [{ id: "rt5", name: "System", last: "New analytics dashboard enabled.", avatar: "/news/policy.svg", unread: 0 }];
+    }
+  }
+  if (pathname?.startsWith("/logistics-dashboard")) {
+    if (logRole === "Operations Manager") {
+      return [
+        {
+          id: "lg1",
+          name: "Control Tower Team",
+          last: "Flagged service dip on West Coast lane – check live board.",
+          avatar: "/news/ai.svg",
+          unread: 1,
+        },
+        {
+          id: "lg2",
+          name: "Carrier Success • Carrier A",
+          last: "Shared updated capacity plan for next week.",
+          avatar: "/news/lab.svg",
+          unread: 0,
+        },
+      ];
+    } else if (logRole === "Warehouse Supervisor") {
+      return [
+        {
+          id: "lg3",
+          name: "Inbound Planner",
+          last: "Early inbound wave arriving 30 min ahead of schedule.",
+          avatar: "/news/policy.svg",
+          unread: 1,
+        },
+        {
+          id: "lg4",
+          name: "Yard Lead",
+          last: "Two trailers queued for D3 – confirm door swap?",
+          avatar: "/news/ai.svg",
+          unread: 1,
+        },
+      ];
+    } else if (logRole === "Distributions Operator") {
+      return [
+        {
+          id: "lg5",
+          name: "Dispatch",
+          last: "New high-priority stop added to afternoon route.",
+          avatar: "/news/lab.svg",
+          unread: 1,
+        },
+        {
+          id: "lg6",
+          name: "Customer Chat – Today’s First Stop",
+          last: "Gate code and delivery notes shared.",
+          avatar: "/news/policy.svg",
+          unread: 0,
+        },
+      ];
+    } else if (logRole === "Admin") {
+      return [
+        {
+          id: "lg7",
+          name: "Network Design Lead",
+          last: "Requested review of new lane proposal for APAC.",
+          avatar: "/news/ai.svg",
+          unread: 1,
+        },
+        {
+          id: "lg8",
+          name: "Security & Compliance",
+          last: "Access review for DC admins due this week.",
+          avatar: "/news/policy.svg",
+          unread: 0,
+        },
+      ];
     }
   }
   if (role === "teacher") {

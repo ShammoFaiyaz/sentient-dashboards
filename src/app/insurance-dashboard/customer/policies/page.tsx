@@ -4,11 +4,12 @@ import * as React from "react";
 import { AgentTile } from "@/components/AgentTile";
 import { useAgents } from "@/context/AgentsProvider";
 import { NICHES } from "@/niches/config";
+import { agentsForNicheAndRole } from "@/components/niche/roleMap";
 
 export default function CustomerPoliciesPage() {
   const { agents } = useAgents();
   const config = NICHES["insurance-dashboard"];
-  const featured = agents.filter((a) => config.agentIds.includes(a.id)).slice(0, 3);
+  const featured = agentsForNicheAndRole("insurance-dashboard", agents, { roleLabel: "Customer" }).slice(0, 3);
   const [policies, setPolicies] = React.useState<Array<[string,string,string,string,string]>>([
     ["POL-123456", "Auto", "Active", "$92/mo", "2025‑02‑14"],
     ["POL-778900", "Property", "Active", "$148/mo", "2025‑07‑01"],

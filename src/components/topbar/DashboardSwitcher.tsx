@@ -11,6 +11,7 @@ const OPTIONS = [
   { label: "Fintech Dashboard", href: "/fintech-dashboard" },
   { label: "Hospitality Dashboard", href: "/hospitality-dashboard" },
   { label: "Retail Dashboard", href: "/retail-dashboard" },
+  { label: "Logistics Dashboard", href: "/logistics-dashboard" },
 ];
 
 export default function DashboardSwitcher() {

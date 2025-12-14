@@ -8,7 +8,7 @@ import { NICHES } from "@/niches/config";
 import NewsCarousel from "@/components/news/NewsCarousel";
 import WelcomeBanner from "@/components/topbar/WelcomeBanner";
 import { useNicheRole } from "@/components/niche/useNicheRole";
-import { nicheRoleToSuRole } from "@/components/niche/roleMap";
+import { agentsForNicheAndRole, nicheRoleToSuRole } from "@/components/niche/roleMap";
 import { usePathname } from "next/navigation";
 
 function KpiCard({ label, value, hint, colorHex }: { label: string; value: string; hint: string; colorHex: string }) {
@@ -42,11 +42,7 @@ export default function FintechDashboard() {
   const pathname = usePathname() || "";
   const suRole = nicheRoleToSuRole("fintech-dashboard", role);
   const effectiveRole = pathname.includes("/fintech-dashboard/admin/") ? "admin" : suRole;
-  const featuredBase = agents.filter((a) => config.agentIds.includes(a.id) && a.role === effectiveRole);
-  const featured =
-    featuredBase.length >= 3
-      ? featuredBase.slice(0, 3)
-      : [...featuredBase, ...agents.filter((a) => config.agentIds.includes(a.id) && a.role !== effectiveRole)].slice(0, 3);
+  const featured = agentsForNicheAndRole("fintech-dashboard", agents, { suRole: effectiveRole }).slice(0, 3);
 
   return (
     <div className="mx-auto max-w-7xl px-2 py-6">

@@ -5,11 +5,12 @@ import { useAgents } from "@/context/AgentsProvider";
 import { NICHES } from "@/niches/config";
 import { AgentTile } from "@/components/AgentTile";
 import * as React from "react";
+import { agentsForNicheAndRole } from "@/components/niche/roleMap";
 
 export default function UWApprovalPricingPage() {
   const config = NICHES["insurance-dashboard"];
   const { agents } = useAgents();
-  const featured = agents.filter((a) => config.agentIds.includes(a.id)).slice(0, 3);
+  const featured = agentsForNicheAndRole("insurance-dashboard", agents, { roleLabel: "Underwriter" }).slice(0, 3);
   return (
     <div className="mx-auto max-w-7xl px-2 py-6">
       {/* Featured Agents */}

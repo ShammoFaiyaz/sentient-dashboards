@@ -8,6 +8,7 @@ import { AgentTile } from "@/components/AgentTile";
 import NewsCarousel from "@/components/news/NewsCarousel";
 import WelcomeBanner from "@/components/topbar/WelcomeBanner";
 import { useNicheRole } from "@/components/niche/useNicheRole";
+import { agentsForNicheAndRole } from "@/components/niche/roleMap";
 
 function KpiCard({ label, value, hint, colorHex, bgGradient, bullets = [] as string[] }: { label: string; value: string; hint: string; colorHex: string; bgGradient: string; bullets?: string[] }) {
   return (
@@ -30,8 +31,8 @@ function KpiCard({ label, value, hint, colorHex, bgGradient, bullets = [] as str
 export default function InsuranceDashboard() {
   const config = NICHES["insurance-dashboard"];
   const { agents } = useAgents();
-  const featured = agents.filter(a => config.agentIds.includes(a.id)).slice(0, 3);
   const role = useNicheRole("insurance-dashboard", config.roles[0]);
+  const featured = agentsForNicheAndRole("insurance-dashboard", agents, { roleLabel: role }).slice(0, 3);
 
   function renderRoleKpis() {
     switch (role) {

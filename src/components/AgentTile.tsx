@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Bot, Sparkles, BookOpen, Shield, Briefcase, Brain, Megaphone, CheckCircle } from "lucide-react";
-import { Button, buttonVariants, cn } from "@/components/ui/Button";
+import { buttonVariants, cn } from "@/components/ui/Button";
 import type { Agent } from "@/mock/agents";
 
 function getIcon(name?: Agent["icon"]) {
@@ -30,19 +30,24 @@ function roleCta(agent: Agent): { label: string; variant: "primary" | "accent" }
   return { label: agent.id === "virtual-admissions" ? "Open admissions bot" : "Build journey", variant: "primary" };
 }
 
-export function AgentTile({ agent, poweredByBLDR, status }: { agent: Agent; poweredByBLDR?: boolean; status?: "online" | "offline" }) {
+export function AgentTile({
+  agent,
+  poweredByBLDR,
+  status,
+  actions,
+}: {
+  agent: Agent;
+  poweredByBLDR?: boolean;
+  status?: "online" | "offline";
+  /** Optional custom controls rendered in the top‑right corner (e.g. toggles, menus). */
+  actions?: React.ReactNode;
+}) {
   const Icon = getIcon(agent.icon);
   const grad = medallionGradient(agent.color);
   const { label, variant } = roleCta(agent);
 
   return (
     <div className="relative flex h-full flex-col justify-between rounded-card border border-line/60 bg-white p-5 text-ink shadow-elevation-sm dark:bg-slate-900">
-      {poweredByBLDR && (
-        <div className="absolute right-3 top-3 rounded-full bg-primary/5 px-2 py-0.5 text-[10px] text-primary">
-          Powered by BLDR
-        </div>
-      )}
-
       {status && (
         <div className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full border border-line/60 bg-white px-2 py-0.5 text-[11px] shadow-elevation-sm">
           <span className={cn("h-2 w-2 rounded-full", status === "online" ? "bg-emerald-500" : "bg-error")} />
@@ -50,11 +55,22 @@ export function AgentTile({ agent, poweredByBLDR, status }: { agent: Agent; powe
         </div>
       )}
 
+      {(poweredByBLDR || actions) && (
+        <div className="absolute right-3 top-3 flex items-center gap-1.5">
+          {poweredByBLDR && (
+            <div className="rounded-full bg-primary/5 px-2 py-0.5 text-[10px] text-primary">Powered by BLDR</div>
+          )}
+          {actions}
+        </div>
+      )}
+
       <div className="flex flex-col items-center text-center">
         <div className={cn("flex size-14 items-center justify-center rounded-full border-2 border-line bg-gradient-to-br text-white", grad)}>
           <Icon className="h-7 w-7" />
         </div>
-        <div className="mt-3 text-xs uppercase tracking-wide text-muted">{agent.category}</div>
+        <div className="mt-3 text-xs uppercase tracking-wide text-muted">
+          {String(agent.category || "").toUpperCase()}
+        </div>
         <h3 className="mt-1 text-base font-semibold text-primary">{agent.name}</h3>
         <p className="mt-2 text-sm text-muted">{agent.description}</p>
       </div>

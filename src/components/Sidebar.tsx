@@ -138,6 +138,8 @@ export default function Sidebar({ mobile = false, onClose }: { mobile?: boolean;
         return "/brand-hospitality.gif";
       case "retail-dashboard":
         return "/brand-retail.gif";
+      case "logistics-dashboard":
+        return "/brand-logistics.gif";
       default:
         return "/brand.gif"; // Sentient University and others
     }
@@ -148,6 +150,30 @@ export default function Sidebar({ mobile = false, onClose }: { mobile?: boolean;
     switch (label) {
       case "Dashboard":
         return Gauge;
+      case "Control Tower":
+        return Brain;
+      case "Shipments & Orders":
+        return Package;
+      case "Routing & Modes":
+        return Globe2;
+      case "Service Performance":
+        return BarChart3;
+      case "Inbound & Outbound":
+        return ClipboardList;
+      case "Storage & Slots":
+        return Layers3;
+      case "Labor & Shifts":
+        return Users;
+      case "Safety & Compliance":
+        return Shield;
+      case "My Routes":
+        return Globe2;
+      case "Today's Deliveries":
+        return Package;
+      case "Exceptions":
+        return AlertTriangle;
+      case "Performance & Earnings":
+        return LineChart;
       case "Portfolio Overview":
         return FileSpreadsheet;
       case "Positions & Holdings":
@@ -178,6 +204,12 @@ export default function Sidebar({ mobile = false, onClose }: { mobile?: boolean;
         return Package;
       case "User Management":
         return Users;
+      case "Network Oversight":
+        return Globe2;
+      case "Capacity & SLAs":
+        return BarChart3;
+      case "Compliance & Risk":
+        return Shield;
       case "Claims Oversight":
         return ClipboardList;
       case "Compliance & Reporting":

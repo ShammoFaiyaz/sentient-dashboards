@@ -4,11 +4,12 @@ import * as React from "react";
 import { AgentTile } from "@/components/AgentTile";
 import { useAgents } from "@/context/AgentsProvider";
 import { NICHES } from "@/niches/config";
+import { agentsForNicheAndRole } from "@/components/niche/roleMap";
 
 export default function InsuranceAdminClaimsOversightPage() {
   const { agents } = useAgents();
   const config = NICHES["insurance-dashboard"];
-  const featured = agents.filter((a) => config.agentIds.includes(a.id)).slice(0, 3);
+  const featured = agentsForNicheAndRole("insurance-dashboard", agents, { suRole: "admin" }).slice(0, 3);
   const [queue, setQueue] = React.useState<Array<[string,string,string,string,string]>>([
     ["CLM-12001", "Auto", "Review", "R. Patel", "7d"],
     ["CLM-11980", "Property", "Investigation", "S. Lee", "12d"],

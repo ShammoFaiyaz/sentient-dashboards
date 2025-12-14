@@ -4,6 +4,7 @@ import { useNicheRole } from "@/components/niche/useNicheRole";
 import { useAgents } from "@/context/AgentsProvider";
 import { NICHES } from "@/niches/config";
 import { AgentTile } from "@/components/AgentTile";
+import { agentsForNicheAndRole } from "@/components/niche/roleMap";
 
 function AnalyticCard({ title }: { title: string }) {
   return (
@@ -20,7 +21,7 @@ export default function RiskAnalyticsPage() {
   const role = useNicheRole("insurance-dashboard", "Analyst");
   const { agents } = useAgents();
   const config = NICHES["insurance-dashboard"];
-  const featured = agents.filter(a => config.agentIds.includes(a.id)).slice(0, 3);
+  const featured = agentsForNicheAndRole("insurance-dashboard", agents, { roleLabel: role }).slice(0, 3);
   return (
     <div className="mx-auto max-w-7xl px=2 py-6">
       <h1 className="text-2xl font-semibold text-primary">Risk Analytics</h1>

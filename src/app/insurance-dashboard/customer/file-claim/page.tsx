@@ -4,11 +4,12 @@ import * as React from "react";
 import { AgentTile } from "@/components/AgentTile";
 import { useAgents } from "@/context/AgentsProvider";
 import { NICHES } from "@/niches/config";
+import { agentsForNicheAndRole } from "@/components/niche/roleMap";
 
 export default function CustomerFileClaimPage() {
   const { agents } = useAgents();
   const config = NICHES["insurance-dashboard"];
-  const featured = agents.filter((a) => config.agentIds.includes(a.id)).slice(0, 3);
+  const featured = agentsForNicheAndRole("insurance-dashboard", agents, { roleLabel: "Customer" }).slice(0, 3);
 
   return (
     <div className="mx-auto max-w-7xl px-2 py-6">

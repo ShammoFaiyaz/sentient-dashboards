@@ -4,6 +4,8 @@ import * as React from "react";
 import { useAgents } from "@/context/AgentsProvider";
 import { NICHES } from "@/niches/config";
 import { AgentTile } from "@/components/AgentTile";
+import { useNicheRole } from "@/components/niche/useNicheRole";
+import { agentsForNicheAndRole } from "@/components/niche/roleMap";
 
 function Card({ title, children }: { title: string; children?: React.ReactNode }) {
   return (
@@ -23,7 +25,8 @@ type ClaimRow = { id: string; type: string; status: string; age: string; assigne
 export default function ClaimsPage() {
   const { agents } = useAgents();
   const config = NICHES["insurance-dashboard"];
-  const featured = agents.filter(a => config.agentIds.includes(a.id)).slice(0, 3);
+  const roleLabel = useNicheRole("insurance-dashboard", config.roles[0]);
+  const featured = agentsForNicheAndRole("insurance-dashboard", agents, { roleLabel }).slice(0, 3);
 
   const [claims, setClaims] = React.useState<ClaimRow[]>([
     { id: "CLM-10234", type: "Auto",     status: "Investigation",  age: "2d",  assignee: "A. Patel" },

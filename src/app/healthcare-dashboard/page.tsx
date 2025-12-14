@@ -6,7 +6,7 @@ import { AgentTile } from "@/components/AgentTile";
 import { useAgents } from "@/context/AgentsProvider";
 import { NICHES } from "@/niches/config";
 import { useNicheRole } from "@/components/niche/useNicheRole";
-import { nicheRoleToSuRole } from "@/components/niche/roleMap";
+import { agentsForNicheAndRole, nicheRoleToSuRole } from "@/components/niche/roleMap";
 import { usePathname } from "next/navigation";
 import NewsCarousel from "@/components/news/NewsCarousel";
 import WelcomeBanner from "@/components/topbar/WelcomeBanner";
@@ -41,8 +41,7 @@ export default function HealthcareDashboard() {
   const pathname = usePathname() || "";
   const suRole = nicheRoleToSuRole("healthcare-dashboard", roleLabel);
   const effectiveRole = pathname.includes("/healthcare-dashboard/admin/") ? "admin" : suRole;
-  const base = agents.filter((a) => config.agentIds.includes(a.id) && a.role === effectiveRole);
-  const featured = (base.length >= 3 ? base : [...base, ...agents.filter((a) => config.agentIds.includes(a.id) && a.role !== effectiveRole)]).slice(0, 3);
+  const featured = agentsForNicheAndRole("healthcare-dashboard", agents, { suRole: effectiveRole }).slice(0, 3);
   const role = useNicheRole("healthcare-dashboard", "Doctor");
 
   return (

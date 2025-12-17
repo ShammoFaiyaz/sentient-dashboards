@@ -65,6 +65,66 @@ export default function LogisticsRoutingPage() {
         <Kpi label="Re-optimized Routes" value="22" hint="dynamic adjustments" colorHex="#F4B23E" />
       </div>
 
+      {/* Additional Routing & Modes visuals */}
+      <div className="mt-6 grid gap-4 md:grid-cols-3">
+        {/* Mode split donut: Road / Air / Sea / Rail */}
+        <DonutCard
+          title="Mode Split"
+          caption="Illustrative share of volume across road, air, sea, and rail."
+        />
+
+        {/* Active routes with cost & ETA comparison */}
+        <TableCard
+          title="Active Routes — Cost & ETA"
+          columns={["Route", "Mode", "Cost / Shipment", "ETA", "Alt. Option"]}
+          rows={[
+            ["LA → Dallas", "Road", "$420", "2 days", "Rail: $360, 3 days"],
+            ["Rotterdam → Berlin", "Rail", "€310", "1.5 days", "Road: €340, 1 day"],
+            ["Shanghai → LA", "Sea", "$1,280", "14 days", "Air: $4,900, 2 days"],
+          ]}
+          caption="Side‑by‑side view of current routes and plausible alternates."
+        />
+
+        {/* Bar chart: Cost by Transport Mode */}
+        <BarChartCard
+          title="Cost by Transport Mode"
+          caption="Relative spend mix across road, air, sea, and rail."
+        />
+
+        {/* Route congestion risk panel */}
+        <StatGridCard
+          title="Route Congestion Risk"
+          stats={[
+            { label: "High‑risk corridors", value: "7" },
+            { label: "Moderate‑risk corridors", value: "18" },
+            { label: "Avg delay on impacted lanes", value: "32 min" },
+            { label: "Shipments affected (today)", value: "214" },
+          ]}
+        />
+
+        {/* Rerouting recommendations (dummy AI text) */}
+        <ListCard
+          title="Rerouting Recommendations"
+          items={[
+            "Shift non-urgent LA → Dallas freight to rail overnight to reduce cost by ~14%.",
+            "Use alternate border crossing on EU northbound traffic during evening peak hours.",
+            "Promote sea‑air combo for select APAC lanes where SLAs allow +3 days of transit.",
+          ]}
+          caption="Dummy AI-style suggestions based on congestion and cost patterns."
+        />
+
+        {/* Fuel surcharge impact */}
+        <StatGridCard
+          title="Fuel Surcharge Impact"
+          stats={[
+            { label: "Avg surcharge vs baseline", value: "+8.3%" },
+            { label: "Road lanes above +10%", value: "5" },
+            { label: "Sea contracts with indexed fuel", value: "73%" },
+            { label: "Est. weekly cost impact", value: "$184k" },
+          ]}
+        />
+      </div>
+
       {/* Rich dummy sections (8) tuned for Routing & Modes */}
       <div className="mt-6 grid gap-4 md:grid-cols-3">
         {/* Full-width routing guide */}
@@ -103,22 +163,7 @@ export default function LogisticsRoutingPage() {
           ]}
         />
 
-        {/* Lane balancing + constraints */}
-        <BarChartCard
-          title="Lane Balancing"
-          caption="Illustrative volume vs target balance across key lanes."
-        />
-        <StatGridCard
-          title="Routing Constraints Snapshot"
-          stats={[
-            { label: "Routes tight vs HOS", value: "12%" },
-            { label: "Routes with narrow time windows", value: "28%" },
-            { label: "Geo-fenced segments", value: "34" },
-            { label: "Toll-sensitive routes", value: "19" },
-          ]}
-        />
-
-        {/* Re-optimization queue + KPIs */}
+        {/* Re-optimization queue */}
         <TableCard
           title="Re-optimization Queue"
           columns={["Route", "Reason", "Age"]}
@@ -128,15 +173,6 @@ export default function LogisticsRoutingPage() {
             ["EU cross-border", "Weather", "1 h 10 min"],
           ]}
           caption="Routes queued for dynamic re-optimization."
-        />
-        <StatGridCard
-          title="Routing KPIs"
-          stats={[
-            { label: "On-time arrival (routing dependent)", value: "94.1%" },
-            { label: "Avg route distance", value: "284 km" },
-            { label: "Empty miles share", value: "6.8%" },
-            { label: "Auto-routed volume", value: "71%" },
-          ]}
         />
 
         {/* Additional time-window and overlay sections */}

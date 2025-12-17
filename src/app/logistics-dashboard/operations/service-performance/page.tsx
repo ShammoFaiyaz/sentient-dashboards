@@ -65,6 +65,91 @@ export default function LogisticsServicePerformancePage() {
         <Kpi label="Customer Ticket Rate" value="0.3%" hint="tickets per shipment" colorHex="#008C74" />
       </div>
 
+      {/* Additional Service Performance visuals */}
+      <div className="mt-6 grid gap-4 md:grid-cols-3">
+        {/* Line chart: SLA Performance Over Time */}
+        <div className="rounded-2xl border border-line/60 bg-white p-4 shadow-elevation-sm md:col-span-2">
+          <div className="mb-1 flex items-center justify-between">
+            <div>
+              <h3 className="text-sm font-semibold text-ink">SLA Performance Over Time</h3>
+              <p className="text-xs text-muted">Last 90 days (sequential line chart)</p>
+            </div>
+            <div className="rounded-full bg-neutral-light/60 px-2 py-0.5 text-[10px] text-muted">90d</div>
+          </div>
+          <div className="mt-2 overflow-hidden rounded-lg bg-gradient-to-r from-emerald-50 via-sky-50 to-emerald-50">
+            <svg viewBox="0 0 400 140" className="h-28 w-full" preserveAspectRatio="none">
+              {/* grid */}
+              <g stroke="#e5e7eb" strokeWidth="1">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <line key={i} x1="0" y1={25 * (i + 1)} x2="400" y2={25 * (i + 1)} />
+                ))}
+              </g>
+              {/* baseline */}
+              <line x1="0" y1="115" x2="400" y2="115" stroke="#d1d5db" strokeWidth="1" />
+              <defs>
+                <linearGradient id="slaPerfFill" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stopColor="#34d399" stopOpacity="0.35" />
+                  <stop offset="100%" stopColor="#6ee7b7" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              {/* area under curve */}
+              <path
+                d="M0,70 L20,68 L40,66 L60,64 L80,62 L100,63 L120,60 L140,58 L160,57 L180,59 L200,56 L220,55 L240,54 L260,56 L280,53 L300,52 L320,51 L340,52 L360,50 L380,49 L400,48 L400,140 L0,140 Z"
+                fill="url(#slaPerfFill)"
+              />
+              {/* line */}
+              <polyline
+                points="0,70 20,68 40,66 60,64 80,62 100,63 120,60 140,58 160,57 180,59 200,56 220,55 240,54 260,56 280,53 300,52 320,51 340,52 360,50 380,49 400,48"
+                fill="none"
+                stroke="#059669"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+              />
+            </svg>
+          </div>
+        </div>
+
+        {/* Bar chart: Carrier Performance Comparison */}
+        <BarChartCard
+          title="Carrier Performance Comparison"
+          caption="Illustrative on-time and damage performance for top carriers."
+        />
+
+        {/* Table: SLA breaches with root cause */}
+        <TableCard
+          title="SLA Breaches — Root Cause View"
+          columns={["Case", "Customer", "Lane", "Root Cause"]}
+          rows={[
+            ["SLA-219", "Retailer A", "LA → Dallas", "Weather & congestion"],
+            ["SLA-214", "Retailer B", "DC-East → NYC", "Late pickup at origin"],
+            ["SLA-207", "Marketplace C", "Shanghai → LA", "Port dwell beyond target"],
+          ]}
+          caption="Dummy list of recent SLA misses and their primary drivers."
+        />
+
+        {/* First-attempt delivery success rate */}
+        <StatGridCard
+          title="First-Attempt Delivery"
+          stats={[
+            { label: "Global success rate", value: "93.6%" },
+            { label: "Urban routes", value: "91.2%" },
+            { label: "Suburban routes", value: "95.4%" },
+            { label: "Rural routes", value: "89.7%" },
+          ]}
+        />
+
+        {/* Escalations trend panel */}
+        <ListCard
+          title="Escalations Trend"
+          items={[
+            "Escalations down 12% vs last quarter driven by better ETA transparency.",
+            "Peak-season spike observed on EU northbound lanes in the last 14 days.",
+            "Top three customers account for 48% of open escalations this month.",
+          ]}
+          caption="Narrative view of how service escalations are evolving."
+        />
+      </div>
+
       {/* Rich dummy sections (8) tuned for Service Performance */}
       <div className="mt-6 grid gap-4 md:grid-cols-3">
         {/* OTIF by lane full-width */}
@@ -103,25 +188,13 @@ export default function LogisticsServicePerformancePage() {
           ]}
         />
 
-        {/* Damage + regional view */}
+        {/* Damage view */}
         <BarChartCard
           title="Damage Rate by Product Family"
           caption="Illustrative damage and claims rate across key product groups."
         />
-        <BarChartCard
-          title="Regional Performance Snapshot"
-          caption="Dummy comparison of OTIF and delay minutes by region."
-        />
 
         {/* Tickets, SLAs, and improvement plan */}
-        <ListCard
-          title="Customer Tickets & SLA Watchlist"
-          items={[
-            "Five open tickets linked to repeated late deliveries in EU North.",
-            "Two key customers approaching SLA breach thresholds.",
-            "One carrier flagged for high claims frequency this quarter.",
-          ]}
-        />
         <StatGridCard
           title="Service Health Summary"
           stats={[
@@ -132,14 +205,6 @@ export default function LogisticsServicePerformancePage() {
           ]}
         />
 
-        <ListCard
-          title="Service Improvement Plan"
-          items={[
-            "Tighten cutoff times and handoff checks for high-risk hubs.",
-            "Expand proactive ETA notifications for premium customers.",
-            "Pilot additional packaging standards on fragile SKUs.",
-          ]}
-        />
         <TableCard
           title="Recovery Actions"
           columns={["Case ID", "Issue", "Action", "Status"]}

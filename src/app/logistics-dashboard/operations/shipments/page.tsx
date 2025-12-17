@@ -71,6 +71,87 @@ export default function LogisticsShipmentsPage() {
         <Kpi label="Tracking Coverage" value="98%" hint="events in last 4h" colorHex="#6D28D9" />
       </div>
 
+      {/* Additional Shipments & Orders visuals */}
+      <div className="mt-6 grid gap-4 md:grid-cols-3">
+        {/* Bar chart: Orders by Status */}
+        <BarChartCard
+          title="Orders by Status"
+          caption="Illustrative distribution of open, shipped, delivered, and cancelled orders."
+        />
+
+        {/* Line chart: Order Volume Trend (30 days) */}
+        <div className="rounded-2xl border border-line/60 bg-white p-4 shadow-elevation-sm md:col-span-2">
+          <div className="mb-1 flex items-center justify-between">
+            <div>
+              <h3 className="text-sm font-semibold text-ink">Order Volume Trend</h3>
+              <p className="text-xs text-muted">Last 30 days (sequential line chart)</p>
+            </div>
+            <div className="rounded-full bg-neutral-light/60 px-2 py-0.5 text-[10px] text-muted">30d</div>
+          </div>
+          <div className="mt-2 overflow-hidden rounded-lg bg-gradient-to-r from-sky-50 via-cyan-50 to-sky-50">
+            <svg viewBox="0 0 400 140" className="h-28 w-full" preserveAspectRatio="none">
+              {/* grid */}
+              <g stroke="#e5e7eb" strokeWidth="1">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <line key={i} x1="0" y1={25 * (i + 1)} x2="400" y2={25 * (i + 1)} />
+                ))}
+              </g>
+              {/* baseline */}
+              <line x1="0" y1="115" x2="400" y2="115" stroke="#d1d5db" strokeWidth="1" />
+              <defs>
+                <linearGradient id="ordersVolumeFill" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.35" />
+                  <stop offset="100%" stopColor="#93c5fd" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              {/* area under curve */}
+              <path
+                d="M0,100 L20,98 L40,96 L60,92 L80,88 L100,90 L120,86 L140,80 L160,78 L180,82 L200,76 L220,72 L240,70 L260,74 L280,68 L300,66 L320,70 L340,64 L360,62 L380,58 L400,60 L400,140 L0,140 Z"
+                fill="url(#ordersVolumeFill)"
+              />
+              {/* line */}
+              <polyline
+                points="0,100 20,98 40,96 60,92 80,88 100,90 120,86 140,80 160,78 180,82 200,76 220,72 240,70 260,74 280,68 300,66 320,70 340,64 360,62 380,58 400,60"
+                fill="none"
+                stroke="#2563eb"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+              />
+            </svg>
+          </div>
+        </div>
+
+        {/* Priority shipments panel */}
+        <ListCard
+          title="Priority Shipments"
+          items={[
+            "Hospital replenishment order ORD-8812 (air, ETA today 19:30).",
+            "Platinum customer launch shipment ORD-8799 (road, at risk of delay).",
+            "Temperature-controlled pharma load ORD-8773 (monitor handoffs closely).",
+          ]}
+          caption="High-visibility moves requiring closer monitoring."
+        />
+
+        {/* Split shipments & partial fulfillment summary */}
+        <TableCard
+          title="Split Shipments & Partial Fulfillment"
+          columns={["Pattern", "Orders", "Avg. Lines / Order", "Notes"]}
+          rows={[
+            ["Single order → 2+ shipments", "146", "5.2", "Common for multi-node inventory."],
+            ["Backordered lines", "73", "3.1", "Awaiting inbound replenishment."],
+            ["Partial delivered", "58", "4.4", "Follow-up delivery scheduled."],
+          ]}
+          caption="Illustrative patterns where orders are fulfilled in multiple legs."
+        />
+
+        {/* Customer SLA tier distribution */}
+        <DonutCard
+          title="Customer SLA Tier Distribution"
+          caption="Relative share of platinum, gold, silver, and standard SLA tiers."
+        />
+
+      </div>
+
       {/* Rich dummy sections (8) tuned for Shipments & Orders */}
       <div className="mt-6 grid gap-4 md:grid-cols-3">
         {/* Full-width operational shipment list */}
@@ -100,27 +181,6 @@ export default function LogisticsShipmentsPage() {
             caption="How orders are grouped into shipments across key lanes."
           />
         </div>
-        <DonutCard
-          title="Mode Choice"
-          caption="Share of orders moved by road, air, ocean, and parcel this week."
-        />
-
-        {/* Booking status and documentation health */}
-        <BarChartCard
-          title="Booking Status"
-          caption="Illustrative mix of confirmed, pending, and failed bookings."
-        />
-        <TableCard
-          title="Documentation Panel"
-          columns={["Doc Type", "Complete", "Missing / Error"]}
-          rows={[
-            ["Bills of lading", "96%", "4%"],
-            ["Labels", "99%", "1%"],
-            ["Customs docs", "93%", "7%"],
-          ]}
-          caption="High-level view of documentation readiness for outbound loads."
-        />
-
         {/* Time windows */}
         <CalendarCard title="Pickup & Delivery Windows" />
       </div>
